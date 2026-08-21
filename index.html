@@ -9,23 +9,22 @@
   <meta property="og:title" content="DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
   <meta property="og:description" content="Structure-guided monocular SLAM with verified metric constraints from a digital twin.">
   <meta name="twitter:title" content="DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Newsreader:opsz,wght@6..72,500;6..72,600&amp;family=Roboto+Mono:wght@500;600&amp;display=swap">
   <style>
     :root{--paper:#f7f7f4;--card:#fff;--ink:#16171a;--body:#555861;--muted:#858891;--line:#dedfdc;--soft:#eeeeea;--blue:#1769aa;--blue-soft:#e9f2f9;--orange:#dd8500;--black:#111318}
     @media(prefers-color-scheme:dark){:root{--paper:#111215;--card:#191a1e;--ink:#f3f2ed;--body:#c0c1c6;--muted:#8f919a;--line:#303137;--soft:#202126;--blue:#75b5e8;--blue-soft:#172a39;--orange:#f0a124;--black:#f2f1ec}}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}.wide{width:min(70rem,calc(100% - 2rem));margin-inline:auto}.copy{width:min(49rem,calc(100% - 2rem));margin-inline:auto}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Helvetica,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}a{color:inherit}.wide{width:min(70rem,calc(100% - 2rem));margin-inline:auto}.copy{width:min(49rem,calc(100% - 2rem));margin-inline:auto}
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 0;border-bottom:1px solid var(--line)}.wordmark{font-weight:800;letter-spacing:-.03em;text-decoration:none}.wordmark span,.brand{color:var(--orange)}.toplinks{display:flex;align-items:center;gap:1rem}.toplinks a{font-size:.8rem;font-weight:700;text-decoration:none;color:var(--body)}.toplinks .button{color:var(--paper)}
     .button{display:inline-flex;align-items:center;justify-content:center;min-height:2.7rem;padding:.7rem 1rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.8rem;font-weight:700;text-decoration:none;white-space:nowrap}.button.primary{border-color:var(--black);background:var(--black);color:var(--paper)}
-    header{padding:clamp(4rem,9vw,7.6rem) 0 2.1rem;text-align:center}.kicker,.label{font:600 .68rem/1.4 "Roboto Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}h1,h2,h3{margin:0;font-family:Newsreader,Georgia,serif;text-wrap:balance}h1{max-width:65rem;margin:.85rem auto 0;font-size:clamp(2.25rem,7vw,5.4rem);line-height:.98;letter-spacing:-.045em}.hero-lead{max-width:48rem;margin:1.5rem auto 0;color:var(--body);font-size:clamp(1rem,2.3vw,1.28rem);line-height:1.55;text-wrap:balance}.authors{margin:.8rem 0 0;color:var(--muted);font-size:.72rem}.authors b{color:var(--body)}.actions{display:flex;justify-content:center;gap:.55rem;flex-wrap:wrap;margin-top:1.45rem}
-    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);width:min(45rem,100%);margin:2.6rem auto 0;border-block:1px solid var(--line)}.hero-stat{padding:1rem .65rem}.hero-stat+.hero-stat{border-left:1px solid var(--line)}.hero-stat strong{display:block;font:600 clamp(1.25rem,3vw,1.75rem)/1.2 "Roboto Mono",monospace;color:var(--blue)}.hero-stat span{display:block;margin-top:.3rem;color:var(--muted);font-size:.7rem;line-height:1.35;text-transform:uppercase;letter-spacing:.06em}
-    .teaser{margin-top:1.1rem}.media-frame{overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#0b0c10;box-shadow:0 30px 70px rgba(21,24,28,.11)}video{display:block;width:100%;aspect-ratio:16/9;background:#0b0c10}.caption{margin:.7rem auto 0;color:var(--muted);font-size:.76rem;line-height:1.5;text-align:center}
+    header{padding:clamp(4rem,9vw,7.6rem) 0 2.1rem;text-align:center}.kicker,.label{font:600 .68rem/1.4 Helvetica,"Helvetica Neue",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}h1,h2,h3{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;text-wrap:balance}h1{max-width:65rem;margin:.85rem auto 0;font-size:clamp(2.25rem,7vw,5.4rem);line-height:.98;letter-spacing:-.045em}.hero-lead{max-width:48rem;margin:1.5rem auto 0;color:var(--body);font-size:clamp(1rem,2.3vw,1.28rem);line-height:1.55;text-wrap:balance}.authors{margin:.8rem 0 0;color:var(--muted);font-size:.72rem}.authors b{color:var(--body)}.actions{display:flex;justify-content:center;gap:.55rem;flex-wrap:wrap;margin-top:1.45rem}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);width:min(45rem,100%);margin:2.6rem auto 0;border-block:1px solid var(--line)}.hero-stat{padding:1rem .65rem}.hero-stat+.hero-stat{border-left:1px solid var(--line)}.hero-stat strong{display:block;font:600 clamp(1.25rem,3vw,1.75rem)/1.2 Helvetica,"Helvetica Neue",Arial,sans-serif;color:var(--blue)}.hero-stat span{display:block;margin-top:.3rem;color:var(--muted);font-size:.7rem;line-height:1.35;text-transform:uppercase;letter-spacing:.06em}
+    .teaser{margin-top:1.1rem}.media-frame{overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#0b0c10;box-shadow:0 30px 70px rgba(21,24,28,.11)}video{display:block;width:100%;aspect-ratio:16/9;background:#0b0c10}.caption{margin:.7rem auto 0;color:var(--muted);font-size:.76rem;line-height:1.5;text-align:center}.anchor-demo{margin-top:clamp(1.5rem,4vw,3rem)}
     section{padding-top:clamp(4.8rem,10vw,8.2rem)}.section-head{display:grid;grid-template-columns:.55fr 1.45fr;gap:1.5rem;align-items:start}.section-head h2{font-size:clamp(2rem,5vw,3.75rem);line-height:1.03;letter-spacing:-.035em}.section-head p{max-width:37rem;margin:.25rem 0 0;color:var(--body);font-size:clamp(.96rem,1.8vw,1.12rem)}
-    .loop{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:2rem}.step{position:relative;min-height:12.5rem;padding:1.25rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.step:not(:last-child):after{content:"→";position:absolute;z-index:2;top:50%;right:-1.05rem;width:1.35rem;height:1.35rem;border:1px solid var(--line);border-radius:50%;background:var(--paper);font:.8rem/1.25rem "Roboto Mono",monospace;text-align:center}.step-num{font:600 .68rem/1 "Roboto Mono",monospace;color:var(--blue)}.step h3{margin-top:2.6rem;font-size:1.55rem;line-height:1.1}.step p{margin:.55rem 0 0;color:var(--body);font-size:.84rem}.proof-note{display:flex;gap:.65rem;align-items:flex-start;margin-top:.85rem;padding:.9rem 1rem;border-radius:12px;background:var(--blue-soft);color:var(--body);font-size:.78rem}.proof-note b{flex:0 0 auto;color:var(--blue);font:600 .67rem/1.6 "Roboto Mono",monospace;text-transform:uppercase;letter-spacing:.08em}
-    .result-card{display:grid;grid-template-columns:.85fr 1.15fr;overflow:hidden;margin-top:2rem;border:1px solid var(--line);border-radius:18px;background:var(--card)}.result-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(1.4rem,4vw,2.7rem)}.result-copy h3{margin:.45rem 0 .8rem;font-size:clamp(1.8rem,4vw,3rem);line-height:1.06}.result-copy p{margin:0;color:var(--body);font-size:.9rem}.result-metrics{display:grid;grid-template-columns:1fr 1fr;margin-top:1.5rem;border-top:1px solid var(--line)}.mini-stat{padding:1rem 0}.mini-stat+.mini-stat{padding-left:1rem;border-left:1px solid var(--line)}.mini-stat b{display:block;font:600 1.05rem/1.2 "Roboto Mono",monospace}.mini-stat span{font-size:.68rem;color:var(--muted)}.result-visual{display:flex;align-items:center;padding:1rem;background:#0b0c10}.result-visual img{display:block;width:100%;height:auto;border-radius:9px}
-    .map-block{display:grid;grid-template-columns:1.28fr .72fr;overflow:hidden;margin-top:2rem;border:1px solid var(--line);border-radius:18px;background:var(--card)}.map-frame{position:relative;min-height:32rem;background:#0c0d11}.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.map-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(1.4rem,4vw,2.4rem)}.map-copy h3{margin:.45rem 0 .8rem;font-size:clamp(1.65rem,3.5vw,2.45rem);line-height:1.08}.map-copy p{margin:0;color:var(--body);font-size:.88rem}.map-copy .actions{justify-content:flex-start;margin-top:1.35rem}.map-key{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.25rem}.map-key div{padding:.75rem;border-radius:10px;background:var(--soft)}.map-key b{display:block;font:600 .85rem/1.3 "Roboto Mono",monospace}.map-key span{font-size:.66rem;color:var(--muted)}
+    .method-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem;margin-top:2rem}.method-frame{position:relative;overflow:hidden;min-width:0;aspect-ratio:240/101;border:1px solid var(--line);border-radius:13px;background:#0b0c10}.method-frame img{display:block;width:100%;height:100%;object-fit:contain}.method-frame b{position:absolute;left:.65rem;bottom:.6rem;padding:.28rem .48rem;border-radius:999px;background:rgba(9,11,15,.78);color:#fff;font-size:.66rem;letter-spacing:.04em}.proof-note{display:flex;gap:.65rem;align-items:flex-start;margin-top:.85rem;padding:.9rem 1rem;border-radius:12px;background:var(--blue-soft);color:var(--body);font-size:.78rem}.proof-note b{flex:0 0 auto;color:var(--blue);font:600 .67rem/1.6 Helvetica,"Helvetica Neue",Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+    .result-card{display:grid;grid-template-columns:.85fr 1.15fr;overflow:hidden;margin-top:2rem;border:1px solid var(--line);border-radius:18px;background:var(--card)}.result-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(1.4rem,4vw,2.7rem)}.result-copy h3{margin:.45rem 0 .8rem;font-size:clamp(1.8rem,4vw,3rem);line-height:1.06}.result-copy p{margin:0;color:var(--body);font-size:.9rem}.result-metrics{display:grid;grid-template-columns:1fr 1fr;margin-top:1.5rem;border-top:1px solid var(--line)}.mini-stat{padding:1rem 0}.mini-stat+.mini-stat{padding-left:1rem;border-left:1px solid var(--line)}.mini-stat b{display:block;font:600 1.05rem/1.2 Helvetica,"Helvetica Neue",Arial,sans-serif}.mini-stat span{font-size:.68rem;color:var(--muted)}.result-visual{display:flex;align-items:center;padding:1rem;background:#0b0c10}.result-visual img{display:block;width:100%;height:auto;border-radius:9px}
+    .map-block{display:grid;grid-template-columns:1.28fr .72fr;overflow:hidden;margin-top:2rem;border:1px solid var(--line);border-radius:18px;background:var(--card)}.map-frame{position:relative;min-height:32rem;background:#0c0d11}.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.map-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(1.4rem,4vw,2.4rem)}.map-copy h3{margin:.45rem 0 .8rem;font-size:clamp(1.65rem,3.5vw,2.45rem);line-height:1.08}.map-copy p{margin:0;color:var(--body);font-size:.88rem}.map-copy .actions{justify-content:flex-start;margin-top:1.35rem}.map-key{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.25rem}.map-key div{padding:.75rem;border-radius:10px;background:var(--soft)}.map-key b{display:block;font:600 .85rem/1.3 Helvetica,"Helvetica Neue",Arial,sans-serif}.map-key span{font-size:.66rem;color:var(--muted)}
     .next{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:clamp(4.5rem,9vw,7rem);padding:1.25rem 0;border-block:1px solid var(--line)}.next p{margin:0;color:var(--body);font-size:.88rem}.next a{font-weight:800;text-decoration:none}.next a:after{content:"  →";color:var(--blue)}footer{width:min(70rem,calc(100% - 2rem));margin:4rem auto 0;padding:1.4rem 0 2.4rem;color:var(--muted);font-size:.72rem;text-align:center}
-    @media(max-width:760px){.toplinks>a:not(.button){display:none}header{padding-top:3.7rem}h1{font-size:clamp(2.35rem,12vw,3.65rem);overflow-wrap:anywhere}.actions>*{max-width:100%}.hero-stats,.hero-stat,.loop>*,.result-card>*,.map-block>*{min-width:0}.hero-stats{grid-template-columns:1fr}.hero-stat+.hero-stat{border-left:0;border-top:1px solid var(--line)}.section-head{grid-template-columns:1fr;gap:.65rem}.loop,.result-card,.map-block{grid-template-columns:1fr}.step{min-height:10.5rem}.step:not(:last-child):after{top:auto;right:50%;bottom:-1.05rem;transform:translateX(50%) rotate(90deg)}.step h3{margin-top:1.8rem}.result-visual{order:-1;padding:.65rem}.map-frame{min-height:27rem}.next{align-items:flex-start;flex-direction:column}.map-copy .actions{justify-content:stretch}.map-copy .button{width:100%}}
+    @media(max-width:760px){.toplinks>a:not(.button){display:none}header{padding-top:3.7rem}h1{font-size:clamp(2.35rem,12vw,3.65rem);overflow-wrap:anywhere}.actions>*{max-width:100%}.hero-stats,.hero-stat,.method-strip>*,.result-card>*,.map-block>*{min-width:0}.hero-stats{grid-template-columns:1fr}.hero-stat+.hero-stat{border-left:0;border-top:1px solid var(--line)}.section-head{grid-template-columns:1fr;gap:.65rem}.method-strip{grid-template-columns:1fr 1fr}.result-card,.map-block{grid-template-columns:1fr}.result-visual{order:-1;padding:.65rem}.map-frame{min-height:27rem}.next{align-items:flex-start;flex-direction:column}.map-copy .actions{justify-content:stretch}.map-copy .button{width:100%}}
+    @media(max-width:420px){.method-strip{grid-template-columns:1fr 1fr}.method-frame b{left:.45rem;bottom:.4rem;font-size:.58rem}}
   </style>
 </head>
 <body>
@@ -41,7 +40,7 @@
   <header class="wide">
     <div class="kicker">Structure-guided monocular SLAM</div>
     <h1><span class="brand">DART-SLAM</span>: Structure-Guided Monocular SLAM Using Digital Twins</h1>
-    <p class="hero-lead">Verified digital-twin constraints return disconnected monocular maps to one metric world frame.</p>
+    <p class="hero-lead">Verified twin constraints place disconnected monocular maps in one metric frame.</p>
     <p class="authors"><b>Jungil Ham</b> · <b>Pyojin Kim</b> · GIST</p>
     <div class="actions">
       <a class="button primary" href="results.html">View results</a>
@@ -51,7 +50,7 @@
     <div class="hero-stats" aria-label="KIBO results">
       <div class="hero-stat"><strong>0.222 m</strong><span>Position RMSE</span></div>
       <div class="hero-stat"><strong>2.17°</strong><span>Rotation RMSE</span></div>
-      <div class="hero-stat"><strong>111,852</strong><span>Display splats</span></div>
+      <div class="hero-stat"><strong>111,173</strong><span>CAD-supported display</span></div>
     </div>
   </header>
 
@@ -60,38 +59,42 @@
       <div class="media-frame">
         <video autoplay muted loop playsinline controls preload="metadata" src="assets/teaser.mp4?v=20260821-dart-final"></video>
       </div>
-      <div class="caption">150-frame blackout · 739-frame metric continuation · no future alignment</div>
+      <div class="caption">150-frame blackout · 739-frame continuation · no future alignment</div>
+    </div>
+    <div class="wide anchor-demo" id="anchor">
+      <dart-anchor-demo></dart-anchor-demo>
     </div>
 
     <section class="wide" id="method">
       <div class="section-head">
         <div class="label">Method</div>
         <div>
-          <h2>A physical reference when images are no longer enough.</h2>
-          <p>DART-SLAM verifies live observations against known twin geometry, then uses accepted constraints to correct pose and scale in the physical frame.</p>
+          <h2>Real image to metric constraint.</h2>
+          <p>Match the observation to a posed twin render; accept only verified geometry.</p>
         </div>
       </div>
-      <div class="loop" aria-label="DART-SLAM method">
-        <article class="step"><div class="step-num">01</div><h3>Track</h3><p>Monocular SLAM builds the local camera state and Gaussian map.</p></article>
-        <article class="step"><div class="step-num">02</div><h3>Verify</h3><p>Image evidence is checked against a twin view with known pose and geometry.</p></article>
-        <article class="step"><div class="step-num">03</div><h3>Constrain</h3><p>A verified match restores metric pose and scale; the constraint can recur when needed.</p></article>
+      <div class="method-strip" aria-label="Actual DART-SLAM experiment: real query, twin render, dense matching, and verified pose">
+        <div class="method-frame"><img src="assets/method_real_query.jpg" alt="Real KIBO query image"><b>01 · Real query</b></div>
+        <div class="method-frame"><img src="assets/method_twin_render.jpg" alt="Digital-twin render at a known pose"><b>02 · Twin render</b></div>
+        <div class="method-frame"><img src="assets/method_dense_matches.jpg" alt="Dense real-to-render feature matches"><b>03 · Dense match</b></div>
+        <div class="method-frame"><img src="assets/method_verified_pose.jpg" alt="Verified pose overlaid on the real observation"><b>04 · Verified pose</b></div>
       </div>
-      <div class="proof-note"><b>Current evidence</b><span>The evaluated reconstruction uses causal f0 PRE and f200 POST anchors in the same CAD frame. End-to-end trigger integration remains future work.</span></div>
+      <div class="proof-note"><b>Evidence</b><span>Causal PRE (f0) and POST (f200) anchors; no future fit. Automatic trigger and resume remain future work.</span></div>
     </section>
 
     <section class="wide" id="quality">
       <div class="section-head">
         <div class="label">Appearance</div>
         <div>
-          <h2>Clean-reference-level Gaussian reconstruction.</h2>
-          <p>The post-blackout map preserves the visual detail of a clean HI-SLAM2 run.</p>
+          <h2>Clean-reference-level reconstruction.</h2>
+          <p>POST retains the visual detail of clean HI-SLAM2.</p>
         </div>
       </div>
       <div class="result-card">
         <div class="result-copy">
           <div class="label">KIBO · POST</div>
-          <h3>Same scene.<br>Same level of detail.</h3>
-          <p>Representative same-frame renders are shown at left. Metrics below are own-pose training-view diagnostics, not a held-out superiority claim.</p>
+          <h3>Same scene.<br>Comparable detail.</h3>
+          <p>Own-pose training-view diagnostics; not a held-out superiority claim.</p>
           <div class="result-metrics">
             <div class="mini-stat"><b>26.356 dB</b><span>PSNR ↑</span></div>
             <div class="mini-stat"><b>0.1331</b><span>LPIPS ↓</span></div>
@@ -105,8 +108,8 @@
       <div class="section-head">
         <div class="label">Connected map</div>
         <div>
-          <h2>Two causal reconstructions. One metric gauge.</h2>
-          <p>PRE f0–f49 and POST f200–f938 are reconstructed independently in the same CAD frame; fully occluded frames are omitted.</p>
+          <h2>Two runs. One metric gauge.</h2>
+          <p>Independent PRE and POST maps in the CAD frame; blackout frames omitted.</p>
         </div>
       </div>
       <div class="map-block">
@@ -116,7 +119,7 @@
           <h3>Inspect the final map.</h3>
           <p>Drag to orbit. Pinch or scroll to zoom.</p>
           <div class="map-key">
-            <div><b>23,859</b><span>PRE splats</span></div>
+            <div><b>23,180</b><span>PRE splats</span></div>
             <div><b>87,993</b><span>POST splats</span></div>
           </div>
           <div class="actions">
@@ -134,5 +137,6 @@
   </main>
 
   <footer>DART-SLAM · GIST Machine Perception &amp; Intelligence Lab · 2026</footer>
+  <script src="assets/anchor-demo.js"></script>
 </body>
 </html>
