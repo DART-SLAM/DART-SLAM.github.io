@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f4f0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Research Notes · DART-SLAM</title>
+  <meta name="description" content="DART-SLAM experiment evidence, reproduction records, comparison boundaries, and meeting notes.">
+  <style>
+    :root{--paper:#f4f4f0;--card:#fff;--ink:#16171a;--body:#565a63;--muted:#858992;--line:#dedfdc;--soft:#ebece8;--blue:#1769aa;--blue-soft:#e7f1f8;--orange:#dd8500;--orange-soft:#fff2dc;--green:#227447;--green-soft:#e7f4ec;--red:#a84735;--red-soft:#f8e9e5;--black:#111318;--shadow:0 24px 70px rgba(20,23,27,.08)}
+    @media(prefers-color-scheme:dark){:root{--paper:#111215;--card:#191a1e;--ink:#f3f2ed;--body:#c0c1c6;--muted:#8f929a;--line:#303137;--soft:#222329;--blue:#75b5e8;--blue-soft:#172a39;--orange:#f0a124;--orange-soft:#382713;--green:#7dd19d;--green-soft:#183025;--red:#ed927e;--red-soft:#38201d;--black:#f2f1ec;--shadow:none}}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:5rem}body{overflow-x:hidden;margin:0;background:var(--paper);color:var(--ink);font:16px/1.62 Helvetica,"Helvetica Neue",Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}button{font:inherit}a{color:inherit}.wide{width:min(76rem,calc(100% - 2rem));margin-inline:auto}.progress{position:fixed;z-index:30;top:0;left:0;width:0;height:3px;background:var(--orange)}
+    .topbar{position:sticky;z-index:20;top:0;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--paper) 91%,transparent);backdrop-filter:blur(16px)}.wordmark{font-weight:800;letter-spacing:-.03em;text-decoration:none}.wordmark span{color:var(--orange)}.top-meta{display:flex;align-items:center;gap:.65rem}.unlisted{color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em}.button{display:inline-flex;align-items:center;justify-content:center;min-height:2.45rem;padding:.62rem .92rem;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-size:.75rem;font-weight:700;text-decoration:none;cursor:pointer}.button.primary{border-color:var(--black);background:var(--black);color:var(--paper)}
+    header{padding:clamp(3.8rem,8vw,7rem) 0 2.4rem}.kicker,.eyebrow{font:700 .67rem/1.4 Helvetica,"Helvetica Neue",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}h1,h2,h3{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;text-wrap:balance}h1{max-width:64rem;margin:.8rem 0 0;font-size:clamp(2.55rem,7.2vw,5.8rem);line-height:.96;letter-spacing:-.055em}.lead{max-width:47rem;margin:1.25rem 0 0;color:var(--body);font-size:clamp(1rem,1.8vw,1.18rem);text-wrap:balance}.hero-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1.45rem}.stamp{margin-top:1.1rem;color:var(--muted);font-size:.7rem}
+    .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;margin-top:2.4rem;border-block:1px solid var(--line)}.hero-stat{padding:1rem}.hero-stat+.hero-stat{border-left:1px solid var(--line)}.hero-stat b{display:block;font-size:1rem;line-height:1.25}.hero-stat span{display:block;margin-top:.25rem;color:var(--muted);font-size:.67rem}.hero-stat.good b{color:var(--green)}.hero-stat.bad b{color:var(--red)}.hero-stat.info b{color:var(--blue)}
+    .layout{display:grid;grid-template-columns:14rem minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:start}.toc{position:sticky;top:5.3rem;padding:1rem 0}.toc-title{margin:0 0 .65rem;color:var(--muted);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.toc a{display:block;padding:.42rem .65rem;border-left:2px solid var(--line);color:var(--muted);font-size:.72rem;line-height:1.35;text-decoration:none}.toc a:hover,.toc a.active{border-left-color:var(--orange);color:var(--ink);background:linear-gradient(90deg,var(--orange-soft),transparent)}.toc-note{margin:.9rem .65rem 0;color:var(--muted);font-size:.62rem;line-height:1.45}
+    main{min-width:0}.note-section{padding:clamp(4rem,7vw,6.6rem) 0;border-top:1px solid var(--line);scroll-margin-top:4.8rem}.note-section:first-child{border-top:0;padding-top:2rem}.section-head{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:1rem;align-items:start}.section-number{color:var(--orange);font-size:.72rem;font-weight:800;letter-spacing:.08em}.section-head h2{font-size:clamp(1.85rem,4vw,3.2rem);line-height:1.02;letter-spacing:-.038em}.section-head p{max-width:43rem;margin:.65rem 0 0;color:var(--body);font-size:.92rem}.section-tools{display:flex;gap:.45rem;margin-top:1rem}.section-link{padding:0;border:0;background:none;color:var(--blue);font-size:.68rem;font-weight:700;cursor:pointer}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1.5rem}.summary-card{padding:1.1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.summary-card .status{display:inline-flex;margin-bottom:.72rem}.summary-card h3{font-size:1.05rem;line-height:1.2}.summary-card p{margin:.45rem 0 0;color:var(--body);font-size:.75rem}.status{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .5rem;border-radius:999px;font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.status:before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:currentColor}.status.good{background:var(--green-soft);color:var(--green)}.status.bad{background:var(--red-soft);color:var(--red)}.status.info{background:var(--blue-soft);color:var(--blue)}.status.hold{background:var(--orange-soft);color:var(--orange)}
+    .verdict{display:flex;gap:.8rem;align-items:flex-start;margin-top:1rem;padding:1rem 1.05rem;border-radius:14px;background:var(--blue-soft);color:var(--body);font-size:.78rem}.verdict b{flex:0 0 auto;color:var(--blue);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase}.verdict strong{color:var(--ink)}
+    .signal{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-top:1.5rem;padding:1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.signal span{padding:.52rem .7rem;border-radius:9px;background:var(--soft);font-size:.72rem;font-weight:700}.signal i{color:var(--muted);font-style:normal;font-size:.7rem}.signal .target{background:var(--black);color:var(--paper)}.signal .absent{border:1px dashed var(--line);background:transparent;color:var(--muted);text-decoration:line-through}.micro-note{margin:.55rem 0 0;color:var(--muted);font-size:.66rem}
+    .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:1rem}.metric{padding:.9rem;border:1px solid var(--line);border-radius:12px;background:var(--card)}.metric b{display:block;color:var(--blue);font-size:1.2rem;line-height:1.1;font-variant-numeric:tabular-nums}.metric span{display:block;margin-top:.32rem;color:var(--muted);font-size:.63rem;line-height:1.35}.metric.bad b{color:var(--red)}
+    .table-wrap{overflow-x:auto;margin-top:1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{padding:.72rem .8rem;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;font-variant-numeric:tabular-nums}th{color:var(--muted);font-size:.61rem;letter-spacing:.04em;text-transform:uppercase}th:first-child,td:first-child{text-align:left}tbody tr:last-child td{border-bottom:0}.primary-row td{color:var(--blue);font-weight:800}.table-note{padding:.72rem .8rem;border-top:1px solid var(--line);color:var(--muted);font-size:.64rem}.table-note b{color:var(--body)}
+    .bar-chart{margin-top:1rem;padding:1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.bar-title{margin-bottom:.7rem;font-size:.7rem;font-weight:800}.bar-row{display:grid;grid-template-columns:8rem 1fr 5.2rem;gap:.65rem;align-items:center;margin:.5rem 0;font-size:.67rem}.bar-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-row i{display:block;height:.5rem;border-radius:999px;background:var(--soft);overflow:hidden}.bar-row i b{display:block;width:var(--v);height:100%;min-width:3px;border-radius:inherit;background:var(--blue)}.bar-row em{color:var(--muted);font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+    .media-card{overflow:hidden;margin-top:1.2rem;border:1px solid var(--line);border-radius:16px;background:var(--card)}.media-card video,.media-card img{display:block;width:100%;height:auto;background:#0b0c10}.media-card video{aspect-ratio:16/9;object-fit:contain}.media-copy{padding:.85rem 1rem}.media-copy b{display:block;font-size:.8rem}.media-copy span{display:block;margin-top:.18rem;color:var(--muted);font-size:.66rem}.phase-line{display:grid;grid-template-columns:50fr 150fr 739fr;height:1.7rem;color:#fff;font-size:.58rem;font-weight:800;text-align:center;line-height:1.7rem}.phase-line .pre{background:#585e67}.phase-line .lost{background:var(--red)}.phase-line .post{background:var(--blue)}
+    .failure-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.45rem;align-items:stretch;margin-top:1rem}.flow-box{display:flex;flex-direction:column;justify-content:center;min-height:5.5rem;padding:.8rem;border:1px solid var(--line);border-radius:12px;background:var(--card)}.flow-box b{font-size:.75rem}.flow-box span{margin-top:.22rem;color:var(--muted);font-size:.63rem}.flow-box.fail{border-color:color-mix(in srgb,var(--red) 35%,var(--line));background:var(--red-soft)}.flow-arrow{align-self:center;color:var(--muted);font-weight:800}.flow-arrow.fail{color:var(--red)}
+    .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.4rem}.video-grid .media-card{margin:0}.visual-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}.visual-pair{display:grid;grid-template-columns:1.35fr .9fr;background:#0b0c10}.visual-pair img{width:100%;height:100%;min-height:13rem;object-fit:cover}.visual-pair img+img{border-left:1px solid #31343a;object-fit:contain;background:#fff}.control-strip{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem}.control{padding:.85rem 1rem;border-radius:12px;background:var(--green-soft)}.control b{display:block;color:var(--green);font-size:.9rem}.control span{display:block;margin-top:.2rem;color:var(--body);font-size:.64rem}
+    .lineage{margin-top:1.2rem;padding:1rem;border:1px solid var(--line);border-radius:16px;background:var(--card)}.lineage-branches{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}.lineage-branch{position:relative;padding:.9rem;border-radius:12px;background:var(--soft)}.lineage-branch small{display:block;color:var(--blue);font-size:.58rem;font-weight:800;letter-spacing:.08em}.lineage-branch h3{margin-top:.35rem;font-size:.8rem;line-height:1.2}.lineage-branch p{margin:.35rem 0 0;color:var(--muted);font-size:.61rem;line-height:1.4}.lineage-join{display:grid;justify-items:center;margin-top:.7rem;text-align:center}.lineage-join:before{content:"\2193";color:var(--orange);font-size:1.2rem;font-weight:800}.lineage-join span{color:var(--muted);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em}.lineage-join strong{margin-top:.25rem;padding:.5rem .8rem;border-radius:9px;background:var(--black);color:var(--paper);font-size:.8rem}.lineage-join p{max-width:34rem;margin:.45rem 0 0;color:var(--body);font-size:.63rem}.input-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-top:1.2rem}.input-card{padding:1rem;border:1px solid var(--line);border-radius:14px;background:var(--card)}.input-card.ours{border-color:color-mix(in srgb,var(--blue) 40%,var(--line));background:var(--blue-soft)}.input-card h3{font-size:.88rem}.input-card p{min-height:3.1rem;margin:.45rem 0 0;color:var(--body);font-size:.68rem}.input-card span{display:block;margin-top:.7rem;color:var(--muted);font-size:.61rem}
+    .role{font-weight:800}.role.direct{color:var(--green)}.role.separate{color:var(--blue)}.role.supplement{color:var(--orange)}.role.related{color:var(--muted)}
+    .viewer{position:relative;overflow:hidden;aspect-ratio:16/9;margin-top:1.2rem;border:1px solid var(--line);border-radius:16px;background:#0b0c10;box-shadow:var(--shadow)}.viewer iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.75rem}.map-card{padding:.9rem;border:1px solid var(--line);border-radius:12px;background:var(--card)}.map-card b{display:block;color:var(--blue);font-size:1.05rem}.map-card span{display:block;margin-top:.22rem;color:var(--muted);font-size:.63rem}.claim-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:1rem}.claim{padding:1rem;border-radius:13px}.claim h3{font-size:.78rem}.claim ul{margin:.55rem 0 0;padding-left:1.05rem;color:var(--body);font-size:.68rem}.claim li+li{margin-top:.25rem}.claim.done{background:var(--green-soft)}.claim.open{background:var(--orange-soft)}
+    .task-list{margin-top:1.2rem;border-top:1px solid var(--line)}.task{display:grid;grid-template-columns:3.6rem 1fr 8rem;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);align-items:start}.task .rank{color:var(--orange);font-size:.68rem;font-weight:800}.task h3{font-size:.82rem}.task p{margin:.25rem 0 0;color:var(--body);font-size:.68rem}.task .state{justify-self:end;color:var(--muted);font-size:.63rem;text-align:right}.question-chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}.question-chips span{padding:.48rem .65rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.65rem}
+    details{margin-top:.85rem;border:1px solid var(--line);border-radius:12px;background:var(--card)}summary{padding:.75rem .9rem;color:var(--body);font-size:.68rem;font-weight:800;cursor:pointer}details>div{padding:0 .9rem .9rem;color:var(--body);font-size:.68rem}.path-list{display:grid;gap:.45rem}.path{display:flex;align-items:center;justify-content:space-between;gap:.7rem;padding:.65rem .75rem;border-radius:9px;background:var(--soft)}code{overflow-wrap:anywhere;color:var(--body);font:600 .63rem/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.copy{flex:0 0 auto;border:0;background:none;color:var(--blue);font-size:.6rem;font-weight:800;cursor:pointer}.source-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}.source-links a{font-size:.68rem}
+    footer{width:min(76rem,calc(100% - 2rem));margin:2rem auto 0;padding:1.5rem 0 2.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.67rem;text-align:center}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.toc{z-index:10;top:4.5rem;display:flex;gap:0;overflow-x:auto;margin-inline:-1rem;padding:.55rem 1rem;border-block:1px solid var(--line);background:var(--paper);scrollbar-width:none}.toc::-webkit-scrollbar{display:none}.toc-title,.toc-note{display:none}.toc a{flex:0 0 auto;padding:.42rem .65rem;border-left:0;border-bottom:2px solid var(--line);white-space:nowrap}.toc a:hover,.toc a.active{border-left-color:transparent;border-bottom-color:var(--orange);background:none}.note-section:first-child{padding-top:1rem}}
+    @media(max-width:720px){.top-meta{display:none}header{padding-top:3rem}h1{font-size:clamp(2.4rem,13vw,4.3rem)}.hero-stats,.metric-grid,.input-grid,.map-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-stats>*,.metric-grid>*,.input-grid>*,.map-grid>*{min-width:0;overflow-wrap:anywhere}.hero-stat:nth-child(3){border-left:0}.hero-stat:nth-child(n+3){border-top:1px solid var(--line)}.section-head{grid-template-columns:3rem minmax(0,1fr)}.summary-grid,.video-grid,.visual-grid,.claim-grid{grid-template-columns:1fr}.failure-flow{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.visual-pair{grid-template-columns:1fr}.visual-pair img{min-height:0}.visual-pair img+img{border-top:1px solid #31343a;border-left:0}.task{grid-template-columns:2.7rem minmax(0,1fr)}.task .state{grid-column:2;justify-self:start;text-align:left}.viewer{aspect-ratio:4/5}.bar-row{grid-template-columns:6.3rem minmax(0,1fr) 4.6rem}.control-strip{grid-template-columns:1fr}.lineage-branches{grid-template-columns:1fr}.path{align-items:flex-start;flex-direction:column}}
+    @media(max-width:600px){.hero-stats,.metric-grid,.input-grid,.map-grid{grid-template-columns:1fr}.hero-stat+.hero-stat{border-top:1px solid var(--line);border-left:0}.section-head{grid-template-columns:1fr;gap:.35rem}.phase-line{font-size:.52rem}.topbar{padding:.8rem 0}.wordmark{font-size:.88rem}}
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <nav class="wide topbar" aria-label="Research notes navigation">
+    <a class="wordmark" href="index.html"><span>DART</span>-SLAM · Research Notes</a>
+    <div class="top-meta">
+      <span class="unlisted">Unlisted reference page</span>
+      <button class="button primary" id="copy-current" type="button">현재 위치 링크 복사</button>
+    </div>
+  </nav>
+
+  <header class="wide">
+    <div class="kicker">Research evidence archive</div>
+    <h1>실험 근거와<br>비교 경계.</h1>
+    <p class="lead">교수님 미팅에서 바로 열어보는 독립 기록 페이지. 실제 실행 결과, 실패 조건, 비교 가능 범위와 현재 정본만 모았다.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#meeting-summary">1분 요약</a>
+      <a class="button" href="#svodt-native">SVO-DT 재현</a>
+      <a class="button" href="#reported-failures">실패 영상</a>
+      <a class="button" href="#map-provenance">3D 맵 정본</a>
+    </div>
+    <div class="stamp">최종 갱신 2026-08-21 · 메인 페이지와 독립 · 섹션별 URL 공유 가능</div>
+    <div class="hero-stats" aria-label="Current research-note status">
+      <div class="hero-stat good"><b>Native PASS</b><span>SVO-DT 공식 Oerlikon 실행</span></div>
+      <div class="hero-stat bad"><b>KIBO FAIL</b><span>DT 등록 전 metric VIO 실패</span></div>
+      <div class="hero-stat info"><b>4 cases</b><span>선행 실패 조건 직접 재실행</span></div>
+      <div class="hero-stat info"><b>111,173</b><span>최종 connected display splats</span></div>
+    </div>
+  </header>
+
+  <div class="wide layout">
+    <aside class="toc" aria-label="Page index">
+      <div class="toc-title">Index</div>
+      <a href="#meeting-summary">00 · 지금 결론</a>
+      <a href="#svodt-native">01 · SVO-DT 공식 재현</a>
+      <a href="#svodt-kibo">02 · SVO-DT KIBO 실패</a>
+      <a href="#reported-failures">03 · 선행 실패 조건 직접 재실행</a>
+      <a href="#comparison-scope">04 · 연구 계보와 비교군</a>
+      <a href="#map-provenance">05 · 3D 재구성 정본</a>
+      <a href="#open-items">06 · 미해결 항목</a>
+      <a href="#evidence-ledger">07 · 근거 파일</a>
+      <p class="toc-note">제목과 내용이 일치하도록 실험 단위로 분리했다.</p>
+    </aside>
+
+    <main>
+      <section class="note-section" id="meeting-summary" data-title="00 · 지금 결론">
+        <div class="section-head">
+          <div class="section-number">00</div>
+          <div><h2>지금 결론</h2><p>미팅 시작 직후 보여줄 핵심 판단만 남겼다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="summary-grid">
+          <article class="summary-card"><span class="status good">Confirmed</span><h3>SVO-DT 재현 자체는 성공</h3><p>공식 Oerlikon 입력과 공개 설정으로 전체 파이프라인을 399.8초 실행했다.</p></article>
+          <article class="summary-card"><span class="status bad">Failed transfer</span><h3>KIBO 전이는 실패</h3><p>POST에서 world pose와 CAD registration이 모두 0. 실패 위치는 DT 정합 이전의 metric VIO다.</p></article>
+          <article class="summary-card"><span class="status hold">Supplementary</span><h3>직접 headline 비교는 제외</h3><p>SVO-DT는 RGB뿐 아니라 IMU와 지속적인 global position을 요구한다. KIBO 결과는 cross-domain stress로만 기록한다.</p></article>
+          <article class="summary-card"><span class="status info">Current proof</span><h3>DART 맵은 causal 두 구간</h3><p>PRE와 POST를 각 시작 anchor의 metric gauge에서 독립 재구성해 연결했다. 자동 online resume 주장은 아직 하지 않는다.</p></article>
+        </div>
+        <div class="verdict"><b>한 문장</b><span><strong>공식 방법은 공식 조건에서 재현됐고, KIBO에서는 digital-twin correction이 작동하기 전에 metric VIO가 무너졌다.</strong></span></div>
+      </section>
+
+      <section class="note-section" id="svodt-native" data-title="01 · SVO-DT 공식 재현">
+        <div class="section-head">
+          <div class="section-number">01</div>
+          <div><h2>SVO-DT 공식 재현</h2><p>“재현 실패”가 아니라 <strong>공식 환경 재현 성공</strong>으로 분류한다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="signal" aria-label="Official SVO-DT inputs">
+          <span>Mono RGB</span><i>+</i><span>Filtered IMU</span><i>+</i><span>Ongoing global position</span><i>+</i><span>Metric twin</span><i>→</i><span class="target">SVO-DT</span><span class="absent">Sensor depth</span>
+        </div>
+        <p class="micro-note">Global position은 시작 pose 한 번이 아니라 실행 중 계속 들어오는 절대 위치 측정이다. 공식 방법은 sensor depth를 사용하지 않는다.</p>
+        <div class="metric-grid">
+          <div class="metric"><b>399.8 s</b><span>공식 입력 전체 실행</span></div>
+          <div class="metric"><b>10,397</b><span>GT-matched world poses</span></div>
+          <div class="metric"><b>226</b><span>등록 pose 출력</span></div>
+          <div class="metric"><b>151</b><span>backend가 수락한 등록 제약</span></div>
+        </div>
+        <div class="bar-chart" aria-label="Official Oerlikon direct absolute position RMSE">
+          <div class="bar-title">Oerlikon · direct absolute position RMSE ↓</div>
+          <div class="bar-row"><span>World backend</span><i><b style="--v:100%"></b></i><em>2.242 m</em></div>
+          <div class="bar-row"><span>Registered pose</span><i><b style="--v:64.9%"></b></i><em>1.455 m</em></div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="SVO-DT Oerlikon reproduction metrics">
+            <thead><tr><th>출력</th><th>표본</th><th>Position RMSE</th><th>Rotation RMSE</th><th>용도</th></tr></thead>
+            <tbody>
+              <tr class="primary-row"><td>World backend pose</td><td>10,397</td><td>2.242 m</td><td>4.531°</td><td>Primary</td></tr>
+              <tr><td>Registered pose</td><td>226</td><td>1.455 m</td><td>5.916°</td><td>Registration output</td></tr>
+              <tr><td>Released evaluator · posyaw</td><td>10,397</td><td>1.861 m</td><td>3.736°</td><td>Post-hoc diagnostic</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>Primary protocol.</b> GT timestamp interpolation · no alignment · no scale fit. 공개 evaluator의 posyaw 값은 진단용이며 Sim(3)는 사용하지 않았다.</div>
+        </div>
+        <div class="claim-grid">
+          <article class="claim done"><h3>가져올 설계</h3><ul><li>Registration과 backend fusion 분리</li><li>불확실성을 가진 global 6-DoF pose factor</li><li>측정 gate와 information matrix</li></ul></article>
+          <article class="claim open"><h3>가져오지 않을 구성</h3><ul><li>SVO/IMU frontend 전체</li><li>지속적인 global-position 의존</li><li>KIBO point-cloud ICP를 핵심 anchor로 사용</li></ul></article>
+        </div>
+        <details><summary>재현 조건과 고정 버전</summary><div>공식 저장소 commit <code>d64132270dd448d471a964b63035fdb995eed927</code>, ROS Noetic 격리 Docker, 공개 launch/calibration/frontend/backend/ICP 설정을 그대로 사용했다. 공식 repository working tree는 수정하지 않았다.</div></details>
+        <details><summary>폐기한 SVO-DT-style ICP adaptation</summary><div><div class="table-wrap"><table aria-label="Rejected PicoFlex ICP controls"><thead><tr><th>내부 control</th><th>Position RMSE</th><th>Rotation RMSE</th></tr></thead><tbody><tr class="primary-row"><td>DART-only · full 739</td><td>0.10575 m</td><td>1.25598°</td></tr><tr><td>+ f200 PicoFlex ICP</td><td>0.20991 m</td><td>3.66548°</td></tr><tr><td>+ repeated PicoFlex ICP</td><td>0.17542 m</td><td>4.20240°</td></tr></tbody></table><div class="table-note">Offline geometry control이며 공식 SVO-DT가 아니다. KIBO에서는 두 adaptation 모두 DART-only보다 악화돼 채택하지 않았다.</div></div></div></details>
+      </section>
+
+      <section class="note-section" id="svodt-kibo" data-title="02 · SVO-DT KIBO 실패">
+        <div class="section-head">
+          <div class="section-number">02</div>
+          <div><h2>SVO-DT KIBO 실패</h2><p>같은 KIBO 가림 입력에서 어디까지 진행됐고, 정확히 어디서 끊겼는지 기록한다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <figure class="media-card">
+          <video controls muted playsinline preload="metadata" poster="assets/research-notes/kibo-stress-poster.jpg" src="assets/research-notes/kibo-stress-input.mp4"></video>
+          <div class="phase-line" aria-label="KIBO SVO-DT stress phases"><span class="pre">PRE · f0–49</span><span class="lost">CORRUPT · f50–199</span><span class="post">POST · f200–938</span></div>
+          <figcaption class="media-copy"><b>동일 KIBO corruption 입력</b><span>영상은 입력 구간을 압축한 excerpt이며, 아래 수치는 939-frame 전체 실행 결과다.</span></figcaption>
+        </figure>
+        <div class="metric-grid">
+          <div class="metric bad"><b>0</b><span>POST world poses</span></div>
+          <div class="metric bad"><b>0</b><span>POST CAD registrations</span></div>
+          <div class="metric bad"><b>10×</b><span>frontend/backend resets</span></div>
+          <div class="metric bad"><b>2,146.691 m</b><span>POST local VIO direct RMSE</span></div>
+        </div>
+        <div class="failure-flow" aria-label="Observed SVO-DT KIBO failure point">
+          <div class="flow-box"><b>Start pose accepted</b><span>RGB + raw IMU · g=0 · no later global position</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box fail"><b>Metric VIO resets ×10</b><span>Stable world submap does not survive corruption</span></div>
+          <div class="flow-arrow fail">✕</div>
+          <div class="flow-box"><b>DT correction</b><span>No stable POST map to register</span></div>
+        </div>
+        <div class="verdict"><b>분류</b><span><strong>Astrobee cross-domain adaptation failure.</strong> 공식 native reproduction 실패가 아니며, “DART가 같은 입력에서 SVO-DT보다 우수”라는 headline 수치로 사용하지 않는다.</span></div>
+        <details><summary>실행 조건과 실패 근거</summary><div>939 undistorted frames, f50–199 frozen corruption, 19,156 raw <code>/hw/imu</code> messages, Bumble camera–IMU extrinsic, zero initial biases, start-only full pose, no PicoFlex. World output은 POST 시작 8.86초 전에 끝났고 실제 CAD registration은 PRE 1회뿐이었다.</div></details>
+      </section>
+
+      <section class="note-section" id="reported-failures" data-title="03 · 선행 실패 조건 직접 재실행">
+        <div class="section-head">
+          <div class="section-number">03</div>
+          <div><h2>선행 실패 조건 직접 재실행</h2><p>PPT의 긴 백업 제목을 압축했다. 기존 보고를 인용만 한 것이 아니라 해당 데이터에서 HI-SLAM2를 직접 실행한 결과다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="video-grid">
+          <figure class="media-card">
+            <video controls muted loop playsinline preload="metadata" poster="assets/research-notes/eth3d-kidnap1-poster.png" src="assets/research-notes/eth3d-kidnap1.mp4"></video>
+            <figcaption class="media-copy"><b>ETH3D kidnap1 · 1.27 m ATE</b><span>시야 차단 후 재배치. 렌더는 정상인데 pose가 틀린 quiet failure.</span></figcaption>
+          </figure>
+          <figure class="media-card">
+            <video controls muted loop playsinline preload="metadata" poster="assets/research-notes/eth3d-kidnap-dark-poster.png" src="assets/research-notes/eth3d-kidnap-dark.mp4"></video>
+            <figcaption class="media-copy"><b>ETH3D kidnap_dark</b><span>어둠 속 시야 차단과 재배치. PPT에 삽입된 영상을 그대로 보존.</span></figcaption>
+          </figure>
+        </div>
+        <div class="visual-grid">
+          <figure class="media-card">
+            <div class="visual-pair"><img src="assets/research-notes/graffiti3-cause.jpg" alt="Graffiti3 initial corrugated mural"><img src="assets/research-notes/graffiti3-ate.png" alt="Graffiti3 ATE map"></div>
+            <figcaption class="media-copy"><b>VIGS graffiti3 · 3.32 m ATE</b><span>초기 화면을 채운 골함석 반복 패턴이 대응점 모호성을 만든 정황.</span></figcaption>
+          </figure>
+          <figure class="media-card">
+            <div class="visual-pair"><img src="assets/research-notes/downtown3-cause.jpg" alt="Downtown3 initial overexposure"><img src="assets/research-notes/downtown3-ate.png" alt="Downtown3 ATE map"></div>
+            <figcaption class="media-copy"><b>VIGS downtown3 · 16.55 m ATE</b><span>초기화 직후 심한 역광·과다노출에서 큰 오차로 시작한 정황.</span></figcaption>
+          </figure>
+        </div>
+        <div class="control-strip" aria-label="HI-SLAM2 clean control results">
+          <div class="control"><b>0.017 m</b><span>TUM dynamic · 정상 조건 control</span></div>
+          <div class="control"><b>0.006 m</b><span>Mannequin · 정상 조건 control</span></div>
+        </div>
+        <p class="micro-note">Archived baseline evidence · 위 ATE 그래프는 evo + Sim(3) Umeyama 정렬 결과이므로 DART의 direct-absolute 수치와 같은 표에 섞지 않는다. 원인 설명은 궤적·렌더·프레임에서 역추적한 강한 정황이며 내부 feature/BA/depth 계측으로 단일 원인을 확정한 실험은 아니다.</p>
+      </section>
+
+      <section class="note-section" id="comparison-scope" data-title="04 · 연구 계보와 비교군">
+        <div class="section-head">
+          <div class="section-number">04</div>
+          <div><h2>연구 계보와 비교군</h2><p>DART-SLAM을 만든 세 연구 흐름과, 실제 평가에서 각 방법이 맡는 역할을 분리한다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="lineage" aria-label="Three research lineages combined in DART-SLAM">
+          <div class="lineage-branches">
+            <article class="lineage-branch"><small>01 · LOCAL MAPPING</small><h3>Monocular visual SLAM</h3><p>HI-SLAM2 · VGGT-SLAM2 · MASt3R-SLAM</p></article>
+            <article class="lineage-branch"><small>02 · GLOBAL POSE</small><h3>Visual place recognition + localization</h3><p>Retrieval · matching · pose estimation · HLoc · MeshLoc</p></article>
+            <article class="lineage-branch"><small>03 · METRIC PRIOR</small><h3>Digital-twin-aided localization + SLAM</h3><p>SVO-DT · diS-Graphs · ivS-Graphs · BIM-vSLAM</p></article>
+          </div>
+          <div class="lineage-join"><span>combined in</span><strong>DART-SLAM</strong><p>단안 SLAM 백본에 metric twin 대상 render-to-real 위치추정과 검증된 구조 제약을 결합한다.</p></div>
+        </div>
+        <div class="input-grid">
+          <article class="input-card ours"><h3>DART-SLAM</h3><p>Monocular RGB + metric 3D twin</p><span>Tracking-loss 후 metric map 재연결</span></article>
+          <article class="input-card"><h3>SVO-DT</h3><p>RGB + IMU + ongoing global position + metric twin</p><span>Metric VIO에 DT registration factor 융합</span></article>
+          <article class="input-card"><h3>diS-Graphs</h3><p>3D LiDAR + robot odometry + semantic A-Graph</p><span>건축 도면의 벽·방 편차까지 공동 추정</span></article>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Baseline role classification">
+            <thead><tr><th>방법</th><th>출력</th><th>이 프로젝트에서의 역할</th><th>같은 headline 표?</th></tr></thead>
+            <tbody>
+              <tr><td>HI-SLAM2 · VGGT-SLAM2 · MASt3R-SLAM · WildGS-SLAM</td><td>SLAM trajectory/map</td><td><span class="role direct">Direct baseline</span></td><td>Yes</td></tr>
+              <tr><td>HLoc · MeshLoc</td><td>독립 query pose</td><td><span class="role separate">Separate localization table</span></td><td>No</td></tr>
+              <tr><td>SVO-DT</td><td>Visual-inertial world trajectory</td><td><span class="role supplement">Native repro + KIBO stress</span></td><td>No</td></tr>
+              <tr><td>diS-Graphs</td><td>LiDAR SLAM + plan deviation</td><td><span class="role related">Related work</span></td><td>No</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>핵심 구분.</b> diS-Graphs는 현실에 맞춰 twin의 구조 오차를 추정하고, DART-SLAM은 twin anchor로 망가진 visual SLAM을 metric frame에 다시 놓는다.</div>
+        </div>
+        <details><summary>Digital-twin/BIM SLAM · 직접 관련 연구와 최신 흐름</summary><div><div class="table-wrap"><table aria-label="Digital twin and BIM aided SLAM related works"><thead><tr><th>연구</th><th>입력·prior</th><th>DART와의 관계</th></tr></thead><tbody><tr><td>SVO-DT · 2025</td><td>Mono RGB + IMU + metric 3D twin</td><td>가장 가까운 visual-inertial 선행</td></tr><tr><td>diS-Graphs · 2025</td><td>3D LiDAR + odometry + architectural plan</td><td>부정확한 twin 구조까지 공동 추정</td></tr><tr><td>LIO-BIM · 2025</td><td>3D LiDAR + IMU + BIM</td><td>scan–BIM factor를 쓰는 공개 LiDAR 계열</td></tr><tr><td>ivS-Graphs · 2026</td><td>RGB-D + BIM walls</td><td>BIM wall 제약을 visual SLAM backend에 융합</td></tr><tr class="primary-row"><td>BIM-vSLAM · 2026</td><td>Monocular RGB + BIM semantic planes</td><td>최신·가까운 단안 BIM-SLAM 계열</td></tr><tr><td>BIM-assisted 360 SLAM · 2026</td><td>360° RGB + limited BIM reference points</td><td>BIM 좌표계에서 reference-point BA</td></tr><tr><td>BIM-Loc · 2026</td><td>3D LiDAR + IMU + BIM</td><td>현실–BIM discrepancy를 함께 추정하는 최신 LiDAR 계열</td></tr><tr><td>BIM-SLAM · 2023</td><td>3D LiDAR + BIM</td><td>multi-session anchoring 계열</td></tr></tbody></table><div class="table-note">최신이라고 모두 direct baseline은 아니다. 센서·출력·문제 설정이 다른 방법은 related work로 두고, 동일 입력의 full SLAM만 headline 표에서 비교한다.</div></div></div></details>
+        <div class="verdict"><b>논문 배치</b><span>SVO-DT, diS-Graphs, ivS-Graphs, BIM-vSLAM은 related-work/assumption 표에 포함한다. 공식 SVO-DT native 수치는 재현 검증으로, KIBO는 supplementary stress로만 제시한다.</span></div>
+      </section>
+
+      <section class="note-section" id="map-provenance" data-title="05 · 3D 재구성 정본">
+        <div class="section-head">
+          <div class="section-number">05</div>
+          <div><h2>3D 재구성 정본</h2><p>PRE와 POST를 각 시작 anchor의 metric gauge에서 독립적으로 재구성한 최종 connected display map.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="viewer"><iframe loading="lazy" src="viewer.html" title="DART-SLAM final connected Gaussian map"></iframe></div>
+        <div class="map-grid">
+          <div class="map-card"><b>23,180</b><span>PRE display splats · f0–f49</span></div>
+          <div class="map-card"><b>87,993</b><span>POST display splats · f200–f938</span></div>
+          <div class="map-card"><b>111,173</b><span>Connected CAD-supported display</span></div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Final map quality gate">
+            <thead><tr><th>구간</th><th>Map</th><th>PSNR ↑</th><th>SSIM ↑</th><th>LPIPS ↓</th></tr></thead>
+            <tbody>
+              <tr class="primary-row"><td>PRE · 13 views</td><td>DART-SLAM</td><td>21.994</td><td>0.72465</td><td>0.14621</td></tr>
+              <tr><td>PRE · 13 views</td><td>Clean HI-SLAM2</td><td>19.397</td><td>0.71833</td><td>0.35588</td></tr>
+              <tr class="primary-row"><td>POST · 148 views</td><td>DART-SLAM</td><td>26.356</td><td>0.8448</td><td>0.1331</td></tr>
+              <tr><td>POST · 148 views</td><td>Clean HI-SLAM2</td><td>24.398</td><td>0.8294</td><td>0.1709</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>해석 경계.</b> 각 run의 own-pose training-view diagnostic. held-out superiority claim이 아니라 clean-reference-level map quality 확인용이다.</div>
+        </div>
+        <div class="claim-grid">
+          <article class="claim done"><h3>현재 입증</h3><ul><li>PRE/POST 독립 causal HI-SLAM2 실행</li><li>시작 anchor 기반 metric gauge</li><li>미래 trajectory fit 없이 연결</li></ul></article>
+          <article class="claim open"><h3>아직 주장하지 않음</h3><ul><li>자동 failure detection → restart</li><li>연속 end-to-end online mapping resume</li><li>real kidnap 정량 정확도</li></ul></article>
+        </div>
+        <div class="source-links"><a class="button primary" href="viewer.html">전체 화면 3D</a><a class="button" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>PLY 다운로드</a></div>
+      </section>
+
+      <section class="note-section" id="open-items" data-title="06 · 미해결 항목">
+        <div class="section-head">
+          <div class="section-number">06</div>
+          <div><h2>미해결 항목</h2><p>다음 실험과 미팅에서 바로 판단할 순서.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="task-list">
+          <article class="task"><div class="rank">P0</div><div><h3>Online gate → restart → mapping resume</h3><p>현재 독립 causal segment 결과를 하나의 연속 실행으로 통합.</p></div><div class="state">End-to-end proof</div></article>
+          <article class="task"><div class="rank">P1</div><div><h3>최종 성공 시퀀스 2–3개 고정</h3><p>같은 프로토콜로 모든 SLAM baseline과 영상·경로·표를 잠근다.</p></div><div class="state">Paper evidence</div></article>
+          <article class="task"><div class="rank">P1</div><div><h3>Real kidnap의 transient foreground</h3><p>움직이는 우주인 영역을 uncertainty-weighted tracking/mapping으로 억제.</p></div><div class="state">Qualitative → robust</div></article>
+          <article class="task"><div class="rank">P2</div><div><h3>Repeated anchor joint refinement</h3><p>global transform과 anchor 잔차를 함께 줄여 0.1 m / 2° 목표를 안정화.</p></div><div class="state">Accuracy</div></article>
+          <article class="task"><div class="rank">P3</div><div><h3>SVO-DT 추가 투입</h3><p>현재 기록으로 충분. reviewer가 요구할 때만 zero-g IMU adaptation을 추가한다.</p></div><div class="state">Hold</div></article>
+        </div>
+        <div class="question-chips" aria-label="Questions for the next meeting"><span>어떤 2–3개 시퀀스를 최종 고정할까?</span><span>연속 online 통합을 본문 필수로 볼까?</span><span>Real kidnap은 qualitative로 충분한가?</span><span>SVO-DT는 supplementary 어디까지 넣을까?</span></div>
+      </section>
+
+      <section class="note-section" id="evidence-ledger" data-title="07 · 근거 파일">
+        <div class="section-head">
+          <div class="section-number">07</div>
+          <div><h2>근거 파일</h2><p>페이지 요약보다 아래 로컬 artifact가 우선한다. 경로 버튼은 미팅 후 작업을 바로 재개하기 위한 것.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="path-list">
+          <div class="path"><code>~/exp1/baselines/svodt_d641322/REPORT.md</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/REPORT.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/baselines/svodt_d641322/REPRODUCE.md</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/REPRODUCE.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/baselines/svodt_d641322/runs/oerlikon_official_full_v1/direct_metrics.json</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/runs/oerlikon_official_full_v1/direct_metrics.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/baselines/svodt_d641322/runs/kibo_official_stress_v1/run_v3_final/direct_post_metrics.json</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/runs/kibo_official_stress_v1/run_v3_final/direct_post_metrics.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/pitch_cad_anchor.pptx · slide 8</code><button class="copy" data-copy="~/exp1/pitch_cad_anchor.pptx">경로 복사</button></div>
+          <div class="path"><code>~/exp1/.pitch_backup_latest.pptx · slide 8 exact backup</code><button class="copy" data-copy="~/exp1/.pitch_backup_latest.pptx">경로 복사</button></div>
+        </div>
+        <div class="source-links">
+          <a class="button" href="https://arxiv.org/abs/2412.08496" target="_blank" rel="noreferrer">SVO-DT paper</a>
+          <a class="button" href="https://github.com/uzh-rpg/rpg_svo_pro_with_digital_twins" target="_blank" rel="noreferrer">SVO-DT code</a>
+          <a class="button" href="https://arxiv.org/abs/2408.01737" target="_blank" rel="noreferrer">diS-Graphs paper</a>
+          <a class="button" href="https://github.com/cvg/Hierarchical-Localization" target="_blank" rel="noreferrer">HLoc</a>
+          <a class="button" href="https://arxiv.org/abs/2207.10762" target="_blank" rel="noreferrer">MeshLoc</a>
+          <a class="button" href="https://arxiv.org/abs/2509.13972" target="_blank" rel="noreferrer">ivS-Graphs</a>
+          <a class="button" href="https://doi.org/10.1016/j.isprsjprs.2026.06.026" target="_blank" rel="noreferrer">BIM-vSLAM</a>
+          <a class="button" href="https://doi.org/10.1061/JCEMD4.COENG-18279" target="_blank" rel="noreferrer">BIM-assisted 360 SLAM</a>
+          <a class="button" href="https://github.com/janstueh/LIO-BIM" target="_blank" rel="noreferrer">LIO-BIM</a>
+          <a class="button" href="https://arxiv.org/abs/2606.14237" target="_blank" rel="noreferrer">BIM-Loc</a>
+          <a class="button" href="https://arxiv.org/abs/2408.15870" target="_blank" rel="noreferrer">BIM-SLAM</a>
+          <a class="button primary" href="index.html">메인 페이지</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>DART-SLAM research notes · Evidence-backed working record · 2026</footer>
+  <script>
+    const sections=[...document.querySelectorAll('.note-section')];
+    const links=[...document.querySelectorAll('.toc a')];
+    const progress=document.querySelector('.progress');
+    let currentId=sections[0]?.id||'';
+    const setActive=id=>{currentId=id;links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));};
+    const observer=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(visible)setActive(visible.target.id);},{rootMargin:'-18% 0px -62% 0px',threshold:[0,.1,.3,.6]});
+    sections.forEach(section=>observer.observe(section));
+    addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max>0?scrollY/max*100:0)+'%';},{passive:true});
+    async function copyText(text,button){try{await navigator.clipboard.writeText(text);const old=button.textContent;button.textContent='복사됨';setTimeout(()=>button.textContent=old,1200);}catch(_){prompt('복사할 내용',text);}}
+    document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',()=>copyText(button.dataset.copy,button)));
+    document.querySelectorAll('[data-share]').forEach(button=>button.addEventListener('click',()=>copyText(location.origin+location.pathname+'#'+button.closest('section').id,button)));
+    document.querySelector('#copy-current').addEventListener('click',event=>copyText(location.origin+location.pathname+(currentId?'#'+currentId:''),event.currentTarget));
+  </script>
+</body>
+</html>
