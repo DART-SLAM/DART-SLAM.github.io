@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0c0c10">
+  <title>DART-SLAM · Anchor it</title>
+  <meta name="description" content="Interactive visualization of two real HI-SLAM2 Gaussian fragments moving from independent gauges into one shared metric frame.">
+  <style>
+    :root{color-scheme:dark;--bg:#0c0c10;--ink:#f2f1ec;--muted:#aaa9b1;--blue:#70a9e8;--red:#e06c6c;--line:#32323a}
+    *{box-sizing:border-box}
+    html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg);font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;color:var(--ink)}
+    canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none}
+    .top{position:fixed;z-index:3;top:max(16px,env(safe-area-inset-top));left:max(18px,env(safe-area-inset-left));right:max(18px,env(safe-area-inset-right));display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;pointer-events:none;text-shadow:0 2px 16px #000}
+    .brand{font-size:.88rem;font-weight:800;letter-spacing:-.02em}.brand span{color:var(--blue)}
+    .hint{font-size:.65rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-align:right;line-height:1.5;white-space:nowrap}
+    .back{position:fixed;z-index:4;top:max(48px,calc(env(safe-area-inset-top) + 36px));left:max(18px,env(safe-area-inset-left));color:var(--muted);font-size:.7rem;text-decoration:none}.back:hover{color:var(--ink)}
+    .panel{position:fixed;z-index:3;left:50%;bottom:max(16px,env(safe-area-inset-bottom));width:min(92vw,700px);transform:translateX(-50%);display:grid;justify-items:center;gap:.55rem;text-align:center;pointer-events:none;text-shadow:0 2px 16px #000}
+    .eyebrow{font-size:.64rem;font-weight:800;letter-spacing:.18em;color:var(--red)}
+    .panel.anchored .eyebrow{color:var(--blue)}
+    #state{min-height:2.5em;font-size:clamp(.74rem,1.8vw,.94rem);line-height:1.42;text-wrap:balance}
+    #state b{color:var(--ink)}
+    #anchor-button{pointer-events:auto;border:0;border-radius:999px;min-width:8.6rem;padding:.76rem 1.55rem;background:var(--blue);color:#07101b;font:800 .88rem/1 Helvetica,"Helvetica Neue",Arial,sans-serif;box-shadow:0 10px 32px #0009;cursor:pointer;transition:transform .18s ease,filter .18s ease}
+    #anchor-button:hover{filter:brightness(1.12);transform:translateY(-1px)}
+    #anchor-button:active{transform:translateY(1px) scale(.98)}
+    #anchor-button:focus-visible{outline:3px solid #f2f1ec;outline-offset:3px}
+    #anchor-button:disabled{opacity:.58;cursor:wait}
+    #loader{position:fixed;z-index:5;inset:0;display:grid;place-content:center;gap:.75rem;text-align:center;background:var(--bg);transition:opacity .45s ease}
+    #loader.done{opacity:0;pointer-events:none}
+    #loader.error{color:#ffc4c4}
+    .spinner{width:34px;height:34px;margin:auto;border:2px solid #373841;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+    #progress{font-size:.72rem;color:var(--muted)}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:600px){.top{top:max(12px,env(safe-area-inset-top))}.brand{font-size:.78rem}.hint{display:none}.back{top:max(40px,calc(env(safe-area-inset-top) + 30px))}.panel{bottom:max(12px,env(safe-area-inset-bottom));gap:.42rem}#state{max-width:94vw;font-size:.72rem}#anchor-button{padding:.72rem 1.35rem}}
+    @media(prefers-reduced-motion:reduce){#anchor-button{transition:none}.spinner{animation-duration:1.6s}}
+  </style>
+  <script type="importmap">{"imports":{"playcanvas":"./vendor/playcanvas-2.21.0.esm.js"}}</script>
+</head>
+<body>
+  <div id="loader"><div class="spinner"></div><div>Loading real Gaussian fragments</div><div id="progress">0 / 2</div></div>
+  <div class="top">
+    <div class="brand"><span>DART</span>-SLAM · 3D reconstruction</div>
+    <div class="hint">SAME REAL GAUSSIAN FRAGMENTS</div>
+  </div>
+  <a class="back" href="../../index.html">← project page</a>
+  <div class="panel" id="panel" aria-live="polite">
+    <div class="eyebrow" id="label">BROKEN</div>
+    <div id="state">Independent gauges after blackout<br><b>the same module appears as disconnected fragments</b></div>
+    <button id="anchor-button" type="button" aria-pressed="false" disabled>Anchor it</button>
+  </div>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>
