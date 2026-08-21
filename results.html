@@ -7,25 +7,26 @@
   <title>Results · DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins</title>
   <meta name="description" content="DART-SLAM evaluation: metric tracking, SLAM baselines, localization baselines, and Gaussian-map quality.">
   <meta property="og:title" content="Results · DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Newsreader:opsz,wght@6..72,500;6..72,600&amp;family=Roboto+Mono:wght@500;600&amp;display=swap">
   <style>
     :root{--paper:#f7f7f4;--card:#fff;--ink:#16171a;--body:#555861;--muted:#858891;--line:#dedfdc;--soft:#eeeeea;--blue:#1769aa;--blue-soft:#e9f2f9;--orange:#dd8500;--green:#237646;--red:#a94835;--black:#111318}
     @media(prefers-color-scheme:dark){:root{--paper:#111215;--card:#191a1e;--ink:#f3f2ed;--body:#c0c1c6;--muted:#8f919a;--line:#303137;--soft:#202126;--blue:#75b5e8;--blue-soft:#172a39;--orange:#f0a124;--green:#7dd19d;--red:#ed927e;--black:#f2f1ec}}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}.wide{width:min(70rem,calc(100% - 2rem));margin-inline:auto}.copy{width:min(49rem,calc(100% - 2rem));margin-inline:auto}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Helvetica,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}a{color:inherit}.wide{width:min(70rem,calc(100% - 2rem));margin-inline:auto}.copy{width:min(49rem,calc(100% - 2rem));margin-inline:auto}
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 0;border-bottom:1px solid var(--line)}.wordmark{font-weight:800;letter-spacing:-.03em;text-decoration:none}.wordmark span,.brand{color:var(--orange)}.toplinks{display:flex;align-items:center;gap:1rem}.toplinks a{font-size:.8rem;font-weight:700;text-decoration:none;color:var(--body)}.toplinks .button{color:var(--paper)}
     .button{display:inline-flex;align-items:center;justify-content:center;min-height:2.7rem;padding:.7rem 1rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.8rem;font-weight:700;text-decoration:none;white-space:nowrap}.button.primary{border-color:var(--black);background:var(--black);color:var(--paper)}
-    header{padding:clamp(3.7rem,8vw,6.6rem) 0 1rem;text-align:center}.kicker,.label{font:600 .68rem/1.4 "Roboto Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}h1,h2,h3{margin:0;font-family:Newsreader,Georgia,serif;text-wrap:balance}h1{max-width:61rem;margin:.8rem auto 0;font-size:clamp(2.15rem,6vw,4.6rem);line-height:1;letter-spacing:-.045em}.hero-lead{max-width:45rem;margin:1.25rem auto 0;color:var(--body);font-size:clamp(.98rem,2vw,1.18rem);text-wrap:balance}.actions{display:flex;justify-content:center;gap:.55rem;flex-wrap:wrap;margin-top:1.5rem}
-    .hero-result{display:grid;grid-template-columns:1.15fr repeat(3,1fr);align-items:stretch;overflow:hidden;margin-top:2.7rem;border:1px solid var(--line);border-radius:16px;background:var(--card)}.hero-result .takeaway{display:flex;flex-direction:column;justify-content:center;padding:1.35rem;text-align:left;background:var(--blue-soft)}.takeaway b{font-family:Newsreader,Georgia,serif;font-size:1.45rem;line-height:1.05}.takeaway span{margin-top:.45rem;color:var(--body);font-size:.75rem}.hero-metric{display:grid;place-content:center;padding:1.1rem .7rem;text-align:center}.hero-metric+.hero-metric{border-left:1px solid var(--line)}.hero-metric strong{display:block;font:600 clamp(1.15rem,2.6vw,1.6rem)/1.2 "Roboto Mono",monospace;color:var(--blue)}.hero-metric span{display:block;margin-top:.3rem;color:var(--muted);font-size:.64rem;line-height:1.35;text-transform:uppercase;letter-spacing:.06em}
+    header{padding:clamp(3.7rem,8vw,6.6rem) 0 1rem;text-align:center}.kicker,.label{font:600 .68rem/1.4 Helvetica,"Helvetica Neue",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}h1,h2,h3{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;text-wrap:balance}h1{max-width:61rem;margin:.8rem auto 0;font-size:clamp(2.15rem,6vw,4.6rem);line-height:1;letter-spacing:-.045em}.hero-lead{max-width:45rem;margin:1.25rem auto 0;color:var(--body);font-size:clamp(.98rem,2vw,1.18rem);text-wrap:balance}.actions{display:flex;justify-content:center;gap:.55rem;flex-wrap:wrap;margin-top:1.5rem}
+    .hero-result{display:grid;grid-template-columns:1.15fr repeat(3,1fr);align-items:stretch;overflow:hidden;margin-top:2.7rem;border:1px solid var(--line);border-radius:16px;background:var(--card)}.hero-result .takeaway{display:flex;flex-direction:column;justify-content:center;padding:1.35rem;text-align:left;background:var(--blue-soft)}.takeaway b{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-size:1.45rem;line-height:1.05}.takeaway span{margin-top:.45rem;color:var(--body);font-size:.75rem}.hero-metric{display:grid;place-content:center;padding:1.1rem .7rem;text-align:center}.hero-metric+.hero-metric{border-left:1px solid var(--line)}.hero-metric strong{display:block;font:600 clamp(1.15rem,2.6vw,1.6rem)/1.2 Helvetica,"Helvetica Neue",Arial,sans-serif;color:var(--blue)}.hero-metric span{display:block;margin-top:.3rem;color:var(--muted);font-size:.64rem;line-height:1.35;text-transform:uppercase;letter-spacing:.06em}
     section{padding-top:clamp(4.7rem,9vw,7.6rem)}.section-head{display:grid;grid-template-columns:.52fr 1.48fr;gap:1.5rem;align-items:start}.section-head h2{font-size:clamp(2rem,5vw,3.55rem);line-height:1.03;letter-spacing:-.035em}.section-head p{max-width:40rem;margin:.25rem 0 0;color:var(--body);font-size:clamp(.94rem,1.8vw,1.08rem)}
-    .timeline{display:grid;grid-template-columns:1fr 1.08fr 2.1fr;gap:.55rem;margin-top:1.7rem}.period{position:relative;min-height:9.4rem;padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.period.blackout{border-color:#e4d2cd;background:#f6ebe8}.period.post{border-color:#c7dbe9;background:var(--blue-soft)}.period .range{font:600 .69rem/1.3 "Roboto Mono",monospace;color:var(--muted)}.period h3{margin-top:1.55rem;font-size:1.4rem;line-height:1}.period p{margin:.5rem 0 0;color:var(--body);font-size:.75rem;line-height:1.45}.pin{position:absolute;top:-.48rem;left:-.48rem;width:.9rem;height:.9rem;border:3px solid var(--paper);border-radius:50%;background:var(--orange);box-shadow:0 0 0 1px var(--orange)}.timeline-note{display:flex;justify-content:space-between;gap:1rem;margin-top:.6rem;color:var(--muted);font-size:.7rem}.timeline-note b{color:var(--blue);font-family:"Roboto Mono",monospace}
+    .timeline{display:grid;grid-template-columns:1fr 1.08fr 2.1fr;gap:.55rem;margin-top:1.7rem}.period{position:relative;min-height:9.4rem;padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.period.blackout{border-color:#e4d2cd;background:#f6ebe8}.period.post{border-color:#c7dbe9;background:var(--blue-soft)}.period .range{font:600 .69rem/1.3 Helvetica,"Helvetica Neue",Arial,sans-serif;color:var(--muted)}.period h3{margin-top:1.55rem;font-size:1.4rem;line-height:1}.period p{margin:.5rem 0 0;color:var(--body);font-size:.75rem;line-height:1.45}.pin{position:absolute;top:-.48rem;left:-.48rem;width:.9rem;height:.9rem;border:3px solid var(--paper);border-radius:50%;background:var(--orange);box-shadow:0 0 0 1px var(--orange)}.timeline-note{display:flex;justify-content:space-between;gap:1rem;margin-top:.6rem;color:var(--muted);font-size:.7rem}.timeline-note b{color:var(--blue);font-family:Helvetica,"Helvetica Neue",Arial,sans-serif}
+    .metric-plots{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1.5rem}.metric-plot{margin:0;padding:1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.metric-plot figcaption{margin-bottom:.75rem;font-size:.75rem;font-weight:700}.bar-row{display:grid;grid-template-columns:6.4rem 1fr 4.2rem;align-items:center;gap:.55rem;margin:.42rem 0;font-size:.66rem}.bar-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-row i{display:block;height:.48rem;border-radius:999px;background:var(--soft);overflow:hidden}.bar-row i b{display:block;width:var(--v);height:100%;border-radius:inherit;background:#aeb2b8}.bar-row.ours{color:var(--blue);font-weight:700}.bar-row.ours i b{background:var(--blue)}.bar-row em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+    .success-plot{margin-top:1.5rem;padding:1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.success-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.75rem}.success-head b{font-size:.75rem}.success-head span{color:var(--muted);font-size:.66rem}.success-plot .bar-row{grid-template-columns:6.4rem 1fr 4.2rem;max-width:46rem}.success-plot .bar-row i{height:.62rem}.success-plot .bar-row i b{background:#aeb2b8}.success-plot .bar-row.ours i b{background:var(--blue)}
     .table-block{margin-top:1.5rem;border:1px solid var(--line);border-radius:15px;background:var(--card);overflow:hidden}.table-title{display:flex;justify-content:space-between;gap:1rem;padding:1rem 1.1rem;border-bottom:1px solid var(--line)}.table-title b{font-size:.85rem}.table-title span{color:var(--muted);font-size:.7rem}.responsive-table{width:100%;border-collapse:collapse;font-size:.78rem}.responsive-table th,.responsive-table td{padding:.72rem 1rem;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}.responsive-table th:first-child,.responsive-table td:first-child{text-align:left}.responsive-table thead th{color:var(--muted);font-size:.61rem;letter-spacing:.07em;text-transform:uppercase}.responsive-table tbody tr:last-child td{border-bottom:0}.responsive-table .method{font-weight:700}.responsive-table .ours{color:var(--blue);font-weight:800}.responsive-table .subtle{color:var(--muted)}.responsive-table .pending{color:var(--muted);letter-spacing:.14em}.table-note{padding:.72rem 1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.67rem;line-height:1.5}.table-note b{color:var(--body)}
     .quality-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.5rem}.quality-card{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:var(--card)}.quality-top{padding:1.1rem}.quality-top h3{margin:.35rem 0 .4rem;font-size:1.6rem}.quality-top p{margin:0;color:var(--body);font-size:.75rem}.quality-table{display:grid;grid-template-columns:1.1fr repeat(3,1fr);border-top:1px solid var(--line);font-size:.7rem}.quality-table div{padding:.62rem .7rem;border-top:1px solid var(--line);font-variant-numeric:tabular-nums;text-align:right}.quality-table div:nth-child(-n+4){border-top:0;color:var(--muted);font-size:.61rem;text-transform:uppercase;letter-spacing:.05em}.quality-table div:nth-child(4n+1){text-align:left}.quality-table .ours{color:var(--blue);font-weight:800}.visual{overflow:hidden;margin-top:.8rem;border:1px solid var(--line);border-radius:15px;background:#0b0c10}.visual img,.visual video{display:block;width:100%;height:auto}.visual video{aspect-ratio:16/9}.caption{padding:.7rem;color:var(--muted);font-size:.68rem;text-align:center;background:var(--card)}
-    .map-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-top:1.2rem}.map-stat{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.map-stat b{display:block;font:600 1.05rem/1.2 "Roboto Mono",monospace;color:var(--blue)}.map-stat span{color:var(--muted);font-size:.67rem}.map-actions{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem}
+    .map-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-top:1.2rem}.map-stat{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.map-stat b{display:block;font:600 1.05rem/1.2 Helvetica,"Helvetica Neue",Arial,sans-serif;color:var(--blue)}.map-stat span{color:var(--muted);font-size:.67rem}.map-actions{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem}
     .real-timeline{display:grid;grid-template-columns:1.25fr .72fr 1.55fr;gap:.55rem;margin-top:1rem}.real-timeline .period{min-height:8.4rem}.real-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-top:.8rem}.fact{padding:.9rem;border-radius:12px;background:var(--soft)}.fact b{display:block;font-size:.78rem}.fact span{display:block;margin-top:.2rem;color:var(--body);font-size:.7rem;line-height:1.4}
     .future-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1.4rem}.future{padding:1.1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.future b{display:block;margin-bottom:.3rem;font-size:.8rem}.future p{margin:0;color:var(--body);font-size:.73rem}.future.primary{border-color:#bcd4e5;background:var(--blue-soft)}
     footer{width:min(70rem,calc(100% - 2rem));margin:4.5rem auto 0;padding:1.4rem 0 2.4rem;border-top:1px solid var(--line);color:var(--muted);font-size:.72rem;text-align:center}
-    @media(max-width:760px){.toplinks>a:not(.button){display:none}header{padding-top:3.5rem}h1{overflow-wrap:anywhere}.actions>*{max-width:100%}.hero-result>*,.timeline>*,.real-timeline>*,.quality-grid>*,.map-strip>*,.real-facts>*,.future-grid>*{min-width:0}.section-head{grid-template-columns:1fr;gap:.65rem}.hero-result{grid-template-columns:1fr}.hero-result .takeaway{text-align:center}.hero-metric+.hero-metric{border-left:0;border-top:1px solid var(--line)}.timeline,.real-timeline,.quality-grid,.map-strip,.real-facts,.future-grid{grid-template-columns:1fr}.period{min-height:7.8rem}.period h3{margin-top:1rem}.timeline-note{flex-direction:column;gap:.15rem}.table-title{align-items:flex-start;flex-direction:column}.responsive-table thead{display:none}.responsive-table,.responsive-table tbody,.responsive-table tr,.responsive-table td{display:block;width:100%}.responsive-table tr{padding:.55rem 1rem;border-bottom:1px solid var(--line)}.responsive-table tbody tr:last-child{border-bottom:0}.responsive-table td,.responsive-table td:first-child{display:flex;justify-content:space-between;gap:1rem;padding:.31rem 0;border:0;text-align:right}.responsive-table td:first-child{padding-bottom:.45rem;text-align:left}.responsive-table td:not(:first-child):before{content:attr(data-label);color:var(--muted);font-size:.61rem;text-transform:uppercase;letter-spacing:.04em;text-align:left}.quality-table{font-size:.64rem}.quality-table div{padding:.55rem .42rem}.map-actions .button{width:100%}}
+    @media(max-width:760px){.toplinks>a:not(.button){display:none}header{padding-top:3.5rem}h1{overflow-wrap:anywhere}.actions>*{max-width:100%}.hero-result>*,.timeline>*,.metric-plots>*,.real-timeline>*,.quality-grid>*,.map-strip>*,.real-facts>*,.future-grid>*{min-width:0}.section-head{grid-template-columns:1fr;gap:.65rem}.hero-result{grid-template-columns:1fr}.hero-result .takeaway{text-align:center}.hero-metric+.hero-metric{border-left:0;border-top:1px solid var(--line)}.timeline,.metric-plots,.real-timeline,.quality-grid,.map-strip,.real-facts,.future-grid{grid-template-columns:1fr}.period{min-height:7.8rem}.period h3{margin-top:1rem}.timeline-note{flex-direction:column;gap:.15rem}.table-title{align-items:flex-start;flex-direction:column}.responsive-table thead{display:none}.responsive-table,.responsive-table tbody,.responsive-table tr,.responsive-table td{display:block;width:100%}.responsive-table tr{padding:.55rem 1rem;border-bottom:1px solid var(--line)}.responsive-table tbody tr:last-child{border-bottom:0}.responsive-table td,.responsive-table td:first-child{display:flex;justify-content:space-between;gap:1rem;padding:.31rem 0;border:0;text-align:right}.responsive-table td:first-child{padding-bottom:.45rem;text-align:left}.responsive-table td:not(:first-child):before{content:attr(data-label);color:var(--muted);font-size:.61rem;text-transform:uppercase;letter-spacing:.04em;text-align:left}.quality-table{font-size:.64rem}.quality-table div{padding:.55rem .42rem}.map-actions .button{width:100%}}
+    @media(max-width:420px){.bar-row,.success-plot .bar-row{grid-template-columns:5.4rem 1fr 3.9rem;gap:.4rem}.success-head{align-items:flex-start;flex-direction:column;gap:.1rem}}
     @media(max-width:380px){header>.actions{align-items:stretch;flex-direction:column}.actions .button{width:100%}}
   </style>
 </head>
@@ -43,7 +44,7 @@
   <header class="wide">
     <div class="kicker">Evaluation</div>
     <h1><span class="brand">DART-SLAM</span>: Structure-Guided Monocular SLAM Using Digital Twins</h1>
-    <p class="hero-lead">After a complete visual blackout, the new monocular state continues in the same metric world frame.</p>
+    <p class="hero-lead">After complete blackout, the new monocular state resumes in the same metric frame.</p>
     <div class="actions">
       <a class="button" href="index.html">Project overview</a>
       <a class="button primary" href="viewer.html">Explore final map</a>
@@ -52,7 +53,7 @@
       <div class="takeaway"><b>KIBO · 739-frame continuation</b><span>Direct absolute evaluation · no future alignment</span></div>
       <div class="hero-metric"><strong>0.222 m</strong><span>Position RMSE</span></div>
       <div class="hero-metric"><strong>2.17°</strong><span>Rotation RMSE</span></div>
-      <div class="hero-metric"><strong>111,852</strong><span>Display splats</span></div>
+      <div class="hero-metric"><strong>111,173</strong><span>CAD-supported display</span></div>
     </div>
   </header>
 
@@ -62,15 +63,34 @@
         <div class="label">Geometry</div>
         <div>
           <h2>Two causal runs. One absolute frame.</h2>
-          <p>f0 initializes PRE; f200 initializes the independent POST run. Both use their direct twin gauges, without fitting future poses.</p>
+          <p>Independent PRE (f0) and POST (f200) runs use direct twin gauges; no future pose fit.</p>
         </div>
       </div>
       <div class="timeline" aria-label="KIBO evaluation timeline">
-        <article class="period"><div class="range">f0–f49 · 50 frames</div><h3>PRE map</h3><p>Independent causal HI-SLAM2 reconstruction.</p></article>
+        <article class="period"><div class="range">f0–f49 · 50 frames</div><h3>PRE</h3><p>Causal HI-SLAM2 reconstruction.</p></article>
         <article class="period blackout"><div class="range">f50–f199 · 150 frames</div><h3>Blackout</h3><p>No usable image evidence.</p></article>
-        <article class="period post"><span class="pin" aria-hidden="true"></span><div class="range">f200–f938 · 739 frames</div><h3>POST map</h3><p>Metric pose and scale initialized at f200; SLAM then runs forward.</p></article>
+        <article class="period post"><span class="pin" aria-hidden="true"></span><div class="range">f200–f938 · 739 frames</div><h3>POST</h3><p>Metric pose and scale at f200; forward SLAM.</p></article>
       </div>
       <div class="timeline-note"><span><b>f0 PRE · f200 POST</b> verified twin constraints</span><span>No post-hoc Sim(3) fit on DART-SLAM output</span></div>
+
+      <div class="metric-plots" aria-hidden="true">
+        <figure class="metric-plot">
+          <figcaption>KIBO translation RMSE ↓</figcaption>
+          <div class="bar-row ours"><span>DART-SLAM</span><i><b style="--v:2.69%"></b></i><em>0.200 m</em></div>
+          <div class="bar-row"><span>HI-SLAM2</span><i><b style="--v:100%"></b></i><em>7.434 m</em></div>
+          <div class="bar-row"><span>VGGT-SLAM2</span><i><b style="--v:26.62%"></b></i><em>1.979 m</em></div>
+          <div class="bar-row"><span>MASt3R-SLAM</span><i><b style="--v:30.98%"></b></i><em>2.303 m</em></div>
+          <div class="bar-row"><span>WildGS-SLAM</span><i><b style="--v:38.09%"></b></i><em>2.832 m</em></div>
+        </figure>
+        <figure class="metric-plot">
+          <figcaption>FFROT translation RMSE ↓</figcaption>
+          <div class="bar-row ours"><span>DART-SLAM</span><i><b style="--v:4.87%"></b></i><em>0.651 m</em></div>
+          <div class="bar-row"><span>HI-SLAM2</span><i><b style="--v:100%"></b></i><em>13.362 m</em></div>
+          <div class="bar-row"><span>VGGT-SLAM2</span><i><b style="--v:5.84%"></b></i><em>0.781 m</em></div>
+          <div class="bar-row"><span>MASt3R-SLAM</span><i><b style="--v:36.26%"></b></i><em>4.845 m</em></div>
+          <div class="bar-row"><span>WildGS-SLAM</span><i><b style="--v:47.14%"></b></i><em>6.299 m</em></div>
+        </figure>
+      </div>
 
       <div class="table-block">
         <div class="table-title"><b>Full-SLAM baselines · frozen PRE-only gauge</b><span>POST RMSE on shared timestamps</span></div>
@@ -92,9 +112,14 @@
       <div class="section-head">
         <div class="label">Localization</div>
         <div>
-          <h2>Absolute localizers are evaluated separately.</h2>
-          <p>hloc and MeshLoc estimate individual query poses; they are not full SLAM systems and do not appear in the trajectory table.</p>
+          <h2>Absolute localization, evaluated separately.</h2>
+          <p>hloc and MeshLoc predict query poses, not full trajectories.</p>
         </div>
+      </div>
+      <div class="success-plot" aria-hidden="true">
+        <div class="success-head"><b>Success @ 0.5 m / 5° ↑</b><span>83 synthetic queries</span></div>
+        <div class="bar-row"><span>hloc</span><i><b style="--v:39.76%"></b></i><em>33 / 83</em></div>
+        <div class="bar-row ours"><span>MeshLoc</span><i><b style="--v:57.83%"></b></i><em>48 / 83</em></div>
       </div>
       <div class="table-block">
         <div class="table-title"><b>Frozen query protocol</b><span>83 synthetic · 88 real queries</span></div>
@@ -113,8 +138,8 @@
       <div class="section-head">
         <div class="label">Appearance</div>
         <div>
-          <h2>PRE and POST retain clean-reference-level detail.</h2>
-          <p>We report reconstruction diagnostics by segment because the two maps are produced causally and independently.</p>
+          <h2>Clean-reference-level detail.</h2>
+          <p>PRE and POST are measured separately as independent causal maps.</p>
         </div>
       </div>
       <div class="visual">
@@ -123,7 +148,7 @@
       </div>
       <div class="quality-grid">
         <article class="quality-card">
-          <div class="quality-top"><div class="label">PRE · f0–f49</div><h3>Short-run map</h3><p>13 training views per run. Inputs are independently staged; values are diagnostic, not a same-view comparison.</p></div>
+          <div class="quality-top"><div class="label">PRE · f0–f49</div><h3>Short run</h3><p>13 own-pose training views; diagnostic, not same-view superiority.</p></div>
           <div class="quality-table">
             <div>Map</div><div>PSNR ↑</div><div>SSIM ↑</div><div>LPIPS ↓</div>
             <div class="ours">DART-SLAM</div><div class="ours">21.994</div><div class="ours">0.7247</div><div class="ours">0.1462</div>
@@ -131,7 +156,7 @@
           </div>
         </article>
         <article class="quality-card">
-          <div class="quality-top"><div class="label">POST · f200–f938</div><h3>Long-run map</h3><p>148 own-pose training views. This supports a clean-reference-level quality claim, not superiority.</p></div>
+          <div class="quality-top"><div class="label">POST · f200–f938</div><h3>Long run</h3><p>148 own-pose training views; clean-reference-level claim only.</p></div>
           <div class="quality-table">
             <div>Map</div><div>PSNR ↑</div><div>SSIM ↑</div><div>LPIPS ↓</div>
             <div class="ours">DART-SLAM</div><div class="ours">26.356</div><div class="ours">0.8448</div><div class="ours">0.1331</div>
@@ -141,10 +166,11 @@
       </div>
 
       <div class="map-strip" aria-label="Final connected map contents">
-        <div class="map-stat"><b>23,859</b><span>PRE display splats</span></div>
+        <div class="map-stat"><b>23,180</b><span>PRE display splats</span></div>
         <div class="map-stat"><b>87,993</b><span>POST display splats</span></div>
         <div class="map-stat"><b>157,377</b><span>Raw archive splats</span></div>
       </div>
+      <div class="timeline-note"><span>PRE CAD-support display filter: −679 spatial outliers</span><span>POST unchanged</span></div>
       <div class="map-actions">
         <a class="button primary" href="viewer.html">Explore connected map</a>
         <a class="button" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>Download display PLY</a>
@@ -155,8 +181,8 @@
       <div class="section-head">
         <div class="label">Real kidnap</div>
         <div>
-          <h2>A harder case: motion, blackout, and a moving astronaut.</h2>
-          <p>The real sequence is used as a qualitative stress test. It has no pose ground truth, so absolute accuracy is not reported.</p>
+          <h2>Motion, blackout, moving astronaut.</h2>
+          <p>Qualitative stress test only; no pose ground truth.</p>
         </div>
       </div>
       <div class="visual">
@@ -164,14 +190,14 @@
         <div class="caption">Excerpt from the source sequence beginning near 01:10</div>
       </div>
       <div class="real-timeline" aria-label="Real kidnap timeline">
-        <article class="period"><div class="range">f840–f1070 · 231 frames</div><h3>PRE</h3><p>ISS structure is reconstructable; the moving astronaut leaves foreground artifacts.</p></article>
+        <article class="period"><div class="range">f840–f1070 · 231 frames</div><h3>PRE</h3><p>ISS structure plus moving-foreground artifacts.</p></article>
         <article class="period blackout"><div class="range">f1071–f1129 · 59 frames</div><h3>Blackout</h3><p>Visual evidence is obscured.</p></article>
-        <article class="period post"><div class="range">f1130–f2000 · 871 frames</div><h3>POST</h3><p>Post-event interval. No ground-truth pose claim.</p></article>
+        <article class="period post"><div class="range">f1130–f2000 · 871 frames</div><h3>POST</h3><p>Post-event interval; no ground-truth pose claim.</p></article>
       </div>
       <div class="real-facts">
-        <div class="fact"><b>36 PRE keyframes</b><span>A usable static ISS fragment is present.</span></div>
-        <div class="fact"><b>76,009 raw splats</b><span>Before display-only filtering.</span></div>
-        <div class="fact"><b>Dynamic foreground</b><span>The dominant remaining failure mode.</span></div>
+        <div class="fact"><b>36 PRE keyframes</b><span>Static ISS fragment.</span></div>
+        <div class="fact"><b>76,009 raw splats</b><span>Before display filtering.</span></div>
+        <div class="fact"><b>Dynamic foreground</b><span>Main remaining failure mode.</span></div>
       </div>
     </section>
 
@@ -183,10 +209,10 @@
         </div>
       </div>
       <div class="future-grid">
-        <article class="future primary"><b>Dynamic-scene robustness</b><p>Uncertainty-weighted tracking and mapping for transient foregrounds.</p></article>
-        <article class="future"><b>Online integration</b><p>Integrate failure detection, verified twin constraints, reinitialization, and resumed mapping in one continuous run.</p></article>
-        <article class="future"><b>Held-out verification</b><p>Expand anchor evaluation beyond the current development sequences.</p></article>
-        <article class="future"><b>Claim boundary</b><p>Map metrics are training-view diagnostics; real-kidnap results remain qualitative without ground truth.</p></article>
+        <article class="future primary"><b>Dynamic scenes</b><p>Uncertainty-weight transient foregrounds.</p></article>
+        <article class="future"><b>Online integration</b><p>Failure detection → verified constraint → resumed mapping.</p></article>
+        <article class="future"><b>Held-out verification</b><p>Extend beyond development sequences.</p></article>
+        <article class="future"><b>Claim boundary</b><p>Training-view map diagnostics; real kidnap remains qualitative.</p></article>
       </div>
     </section>
   </main>
