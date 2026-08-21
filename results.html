@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fbfbf9">
+  <title>DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins</title>
+  <meta name="description" content="Evaluation status for DART-SLAM tracking, metric scale, and Gaussian-map reconstruction.">
+  <meta property="og:title" content="DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
+  <meta name="twitter:title" content="DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Inter:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+  <style>
+    :root{--bg:#fbfbf9;--surface:#fff;--ink:#17171b;--sec:#56565f;--muted:#85858f;--line:#e6e5df;--blue:#246cb6;--orange:#d98b00;--green:#14763a}
+    @media(prefers-color-scheme:dark){:root{--bg:#101014;--surface:#17171c;--ink:#f2f1ec;--sec:#bcbac3;--muted:#85848e;--line:#2c2b32;--blue:#70a9e8;--orange:#eda100;--green:#80d79a}}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}.wide{width:min(66rem,calc(100% - 2.5rem));margin-inline:auto}.copy{width:min(47rem,calc(100% - 2.5rem));margin-inline:auto}
+    header{padding:4.2rem 0 2rem;text-align:center}.eyebrow,.section-label{font:600 .72rem/1.4 "IBM Plex Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}h1,h2{font-family:"Bricolage Grotesque",Inter,sans-serif;text-wrap:balance}h1{max-width:62rem;margin:.75rem auto 0;font-size:clamp(1.65rem,4vw,2.8rem);line-height:1.14;letter-spacing:-.035em}.brand{color:var(--orange)}.subtitle{margin:.8rem auto 0;color:var(--sec)}
+    .pills{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin:1.35rem 0 0}.pill{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:.48rem 1rem;background:var(--surface);font-size:.83rem;font-weight:600;text-decoration:none}.pill.primary{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+    section{padding-top:4rem}.section-label{margin-bottom:.35rem}h2{margin:.15rem 0 .8rem;font-size:clamp(1.5rem,3vw,2.05rem);line-height:1.22;letter-spacing:-.02em}p{margin:.55rem 0;color:var(--sec)}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:.65rem;margin-top:1.25rem}.stat,.panel{border:1px solid var(--line);border-radius:11px;background:var(--surface)}.stat{padding:1rem .65rem;text-align:center}.stat strong{display:block;font:600 1.18rem/1.2 "IBM Plex Mono",monospace;color:var(--blue)}.stat span{display:block;margin-top:.3rem;color:var(--muted);font-size:.72rem;line-height:1.35}
+    .figure{display:block;width:100%;margin-top:1.25rem;border:1px solid var(--line);border-radius:12px;background:#0b0b0f}.caption,.note{margin:.65rem auto 0;color:var(--muted);font-size:.84rem;line-height:1.55;text-align:center;max-width:52rem}
+    .tablewrap{margin-top:1.2rem;overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--surface)}table{width:100%;min-width:690px;border-collapse:collapse;font-size:.85rem}th,td{padding:.72rem .85rem;border-bottom:1px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}th{color:var(--muted);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}tr:last-child td{border-bottom:0}.num{font-family:"IBM Plex Mono",monospace}.ours{color:var(--blue);font-weight:700}
+    .integrity{display:grid;grid-template-columns:1.15fr .85fr;gap:.8rem;margin-top:1.2rem}.panel{padding:1.1rem}.panel h3{margin:0 0 .55rem;font-size:1rem}.panel ul{margin:.25rem 0;padding-left:1.1rem;color:var(--sec)}.panel li{margin:.3rem 0}.ok{color:var(--green);font-weight:700}
+    .limits{display:grid;gap:.55rem;margin-top:1rem}.limit{display:grid;grid-template-columns:1.5rem 1fr;gap:.45rem;color:var(--sec)}.limit span:first-child{color:var(--blue);font-family:"IBM Plex Mono",monospace}
+    footer{width:min(66rem,calc(100% - 2.5rem));margin:4.5rem auto 0;padding:1.6rem 0 2.8rem;border-top:1px solid var(--line);color:var(--muted);text-align:center;font-size:.83rem}
+    @media(max-width:760px){header{padding-top:3rem}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.integrity{grid-template-columns:1fr}.figure{border-radius:9px}}
+  </style>
+</head>
+<body>
+  <header class="wide">
+    <div class="eyebrow">Evidence · <a href="index.html">Back to overview</a></div>
+    <h1><span class="brand">DART-SLAM</span>: Structure-Guided Monocular SLAM Using Digital Twins</h1>
+    <div class="subtitle">Frozen development-sequence results and reconstruction diagnostics.</div>
+    <nav class="pills" aria-label="Project links">
+      <a class="pill" href="index.html">Overview</a>
+      <a class="pill primary" href="viewer.html">Explore final 3D map</a>
+      <a class="pill" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>Download PLY</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="wide">
+      <div class="section-label">Metric state handover</div>
+      <h2>One anchor restores the post-blackout metric frame</h2>
+      <p>At f200, twin depth scales the new HI-SLAM2 state once. Tracking then continues without another scale correction or future alignment.</p>
+      <div class="stats">
+        <div class="stat"><strong>739</strong><span>post-blackout frames</span></div>
+        <div class="stat"><strong>54</strong><span>keyframes</span></div>
+        <div class="stat"><strong>0.189 m</strong><span>mean position error</span></div>
+        <div class="stat"><strong>2.15°</strong><span>mean rotation error</span></div>
+        <div class="stat"><strong>+0.52%</strong><span>depth-scale drift</span></div>
+      </div>
+      <div class="note">Development anchor at f200 · tracking and Gaussian mapping enabled · no future alignment.</div>
+    </section>
+
+    <section class="wide">
+      <div class="section-label">Gaussian-map quality</div>
+      <h2>The reconstructed fragments meet the clean-reference target</h2>
+      <img class="figure" src="assets/map_quality_contact.png" alt="Input, clean HI-SLAM2, and DART-SLAM Gaussian-map renders at five representative post-blackout views">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Segment and protocol</th><th>Views</th><th>Map</th><th>PSNR ↑</th><th>SSIM ↑</th><th>LPIPS ↓</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="2">PRE f0–f49 · matched common training views</td><td rowspan="2" class="num">13</td><td class="ours">DART-SLAM</td><td class="num ours">21.994</td><td class="num ours">0.7247</td><td class="num ours">0.1462</td></tr>
+            <tr><td>Clean HI-SLAM2</td><td class="num">19.397</td><td class="num">0.7183</td><td class="num">0.3559</td></tr>
+            <tr><td rowspan="2">POST f200–f938 · own-pose training views</td><td rowspan="2" class="num">148</td><td class="ours">DART-SLAM</td><td class="num ours">26.356</td><td class="num ours">0.8448</td><td class="num ours">0.1331</td></tr>
+            <tr><td>Clean HI-SLAM2</td><td class="num">24.398</td><td class="num">0.8294</td><td class="num">0.1709</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Training-view diagnostics with each map's own poses. They support a clean-reference-level quality claim, not superiority or held-out generalization.</div>
+    </section>
+
+    <section class="wide">
+      <div class="section-label">Final connected map</div>
+      <h2>PRE and POST share one anchor gauge</h2>
+      <p>The final display map concatenates the causal f0–f49 reconstruction with the f200–f938 reconstruction. Frames f50–f199 are fully occluded and intentionally absent.</p>
+      <div class="integrity">
+        <div class="panel">
+          <h3>Map contents</h3>
+          <ul>
+            <li><span class="num">111,852</span> strict display splats</li>
+            <li><span class="num">23,859</span> PRE + <span class="num">87,993</span> POST</li>
+            <li><span class="num">157,377</span> splats retained in the raw archive</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Integrity checks</h3>
+          <ul>
+            <li><span class="ok">PASS</span> · 7 / 7 checksums</li>
+            <li><span class="ok">PASS</span> · finite attributes</li>
+            <li><span class="ok">PASS</span> · source slices and masks</li>
+          </ul>
+        </div>
+      </div>
+      <nav class="pills" aria-label="Final map links">
+        <a class="pill primary" href="viewer.html">Open browser viewer</a>
+        <a class="pill" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>Download final PLY · 7.6 MB</a>
+      </nav>
+    </section>
+
+    <section class="copy">
+      <div class="section-label">Scope</div>
+      <h2>What these results do and do not establish</h2>
+      <div class="limits">
+        <div class="limit"><span>01</span><div>The f200 anchor and both reconstructions are causal; future frames are not used for alignment.</div></div>
+        <div class="limit"><span>02</span><div>The map-quality tables use training views, so the claim is limited to matching the clean HI-SLAM2 reconstruction target.</div></div>
+        <div class="limit"><span>03</span><div>Held-out anchor verification and end-to-end localization baselines remain separate pending evaluations.</div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>DART-SLAM · GIST MPIL · working draft · Aug 2026</footer>
+</body>
+</html>

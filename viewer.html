@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0c0c10">
+  <title>DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins</title>
+  <meta name="description" content="Interactive view of the final connected DART-SLAM Gaussian map.">
+  <meta property="og:title" content="DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
+  <meta name="twitter:title" content="DART-SLAM: Structure-Guided Monocular SLAM Using Digital Twins">
+  <style>
+    :root{color-scheme:dark;--bg:#0c0c10;--ink:#f2f1ec;--muted:#aaa9b1;--orange:#eda100;--blue:#70a9e8;--line:#32323a}
+    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none}
+    .top{position:fixed;z-index:3;top:max(18px,env(safe-area-inset-top));left:max(20px,env(safe-area-inset-left));right:max(20px,env(safe-area-inset-right));display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;pointer-events:none}.title{max-width:min(49rem,78vw);font-weight:800;line-height:1.35;letter-spacing:-.02em;text-wrap:balance}.brand{color:var(--orange)}.hint{font-size:.72rem;color:var(--muted);text-align:right;line-height:1.45}
+    .panel{position:fixed;z-index:3;left:50%;bottom:max(18px,env(safe-area-inset-bottom));width:min(92vw,700px);transform:translateX(-50%);display:grid;justify-items:center;gap:.55rem;text-align:center;pointer-events:none;text-shadow:0 2px 16px #000}.label{font-size:.68rem;font-weight:800;letter-spacing:.16em;color:var(--blue)}.state{font-size:clamp(.78rem,1.8vw,.94rem);line-height:1.45}.actions{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;pointer-events:auto}.button{border:1px solid var(--line);border-radius:999px;padding:.68rem 1.15rem;background:#16171d;color:var(--ink);font:700 .78rem/1 inherit;text-decoration:none;box-shadow:0 8px 24px #0008}.button.primary{background:var(--blue);border-color:var(--blue);color:#07101b}
+    .loader{position:fixed;z-index:5;inset:0;display:grid;place-content:center;gap:.75rem;text-align:center;background:var(--bg);transition:opacity .45s ease}.loader.done{opacity:0;pointer-events:none}.spinner{width:34px;height:34px;margin:auto;border:2px solid #373841;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}.progress{font-size:.76rem;color:var(--muted)}@keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:600px){.top{top:max(13px,env(safe-area-inset-top))}.title{max-width:100%;font-size:.85rem}.hint{display:none}.panel{bottom:max(12px,env(safe-area-inset-bottom))}.state{max-width:92vw}}
+  </style>
+  <script type="importmap">{"imports":{"playcanvas":"https://cdn.jsdelivr.net/npm/playcanvas@2.21.0/+esm"}}</script>
+</head>
+<body>
+  <div class="loader" id="loader"><div class="spinner"></div><div>Loading final Gaussian map</div><div class="progress" id="progress">0%</div></div>
+  <div class="top"><div class="title"><span class="brand">DART-SLAM</span>: Structure-Guided Monocular SLAM Using Digital Twins</div><div class="hint">drag to orbit · wheel or pinch to zoom</div></div>
+  <div class="panel">
+    <div class="label">FINAL CONNECTED MAP</div>
+    <div class="state">PRE f0–f49 + POST f200–f938 · one anchor gauge · 111,852 display splats</div>
+    <div class="actions">
+      <a class="button primary" href="index.html">Project page</a>
+      <a class="button" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>Download PLY</a>
+    </div>
+  </div>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>
