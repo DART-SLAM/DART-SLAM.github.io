@@ -53,14 +53,15 @@
     <div class="hero-actions">
       <a class="button primary" href="#meeting-summary">1분 요약</a>
       <a class="button" href="#svodt-native">SVO-DT 재현</a>
+      <a class="button" href="#picoflex-audit">PicoFlex 감사</a>
       <a class="button" href="#reported-failures">실패 영상</a>
       <a class="button" href="#map-provenance">3D 맵 정본</a>
     </div>
-    <div class="stamp">최종 갱신 2026-08-21 · 메인 페이지와 독립 · 섹션별 URL 공유 가능</div>
+    <div class="stamp">최종 갱신 2026-08-23 · 메인 페이지와 독립 · 섹션별 URL 공유 가능</div>
     <div class="hero-stats" aria-label="Current research-note status">
       <div class="hero-stat good"><b>Native PASS</b><span>SVO-DT 공식 Oerlikon 실행</span></div>
       <div class="hero-stat bad"><b>KIBO FAIL</b><span>DT 등록 전 metric VIO 실패</span></div>
-      <div class="hero-stat info"><b>4 cases</b><span>선행 실패 조건 직접 재실행</span></div>
+      <div class="hero-stat info"><b>0 / 7</b><span>보정된 full-6DoF ICP 승인</span></div>
       <div class="hero-stat info"><b>111,173</b><span>최종 connected display splats</span></div>
     </div>
   </header>
@@ -71,11 +72,12 @@
       <a href="#meeting-summary">00 · 지금 결론</a>
       <a href="#svodt-native">01 · SVO-DT 공식 재현</a>
       <a href="#svodt-kibo">02 · SVO-DT KIBO 실패</a>
-      <a href="#reported-failures">03 · 선행 실패 조건 직접 재실행</a>
-      <a href="#comparison-scope">04 · 연구 계보와 비교군</a>
-      <a href="#map-provenance">05 · 3D 재구성 정본</a>
-      <a href="#open-items">06 · 미해결 항목</a>
-      <a href="#evidence-ledger">07 · 근거 파일</a>
+      <a href="#picoflex-audit">03 · PicoFlex–CAD ICP 감사</a>
+      <a href="#reported-failures">04 · 선행 실패 조건 직접 재실행</a>
+      <a href="#comparison-scope">05 · 연구 계보와 비교군</a>
+      <a href="#map-provenance">06 · 3D 재구성 정본</a>
+      <a href="#open-items">07 · 미해결 항목</a>
+      <a href="#evidence-ledger">08 · 근거 파일</a>
       <p class="toc-note">제목과 내용이 일치하도록 실험 단위로 분리했다.</p>
     </aside>
 
@@ -90,8 +92,10 @@
           <article class="summary-card"><span class="status bad">Failed transfer</span><h3>KIBO 전이는 실패</h3><p>POST에서 world pose와 CAD registration이 모두 0. 실패 위치는 DT 정합 이전의 metric VIO다.</p></article>
           <article class="summary-card"><span class="status hold">Supplementary</span><h3>직접 headline 비교는 제외</h3><p>SVO-DT는 RGB뿐 아니라 IMU와 지속적인 global position을 요구한다. KIBO 결과는 cross-domain stress로만 기록한다.</p></article>
           <article class="summary-card"><span class="status info">Current proof</span><h3>DART 맵은 causal 두 구간</h3><p>PRE와 POST를 각 시작 anchor의 metric gauge에서 독립 재구성해 연결했다. 자동 online resume 주장은 아직 하지 않는다.</p></article>
+          <article class="summary-card"><span class="status bad">Invalidated</span><h3>Full-6DoF depth-ICP는 폐기</h3><p>초기 변환 체인은 틀렸고, 공식 체인으로 다시 실행한 correction도 안전 gate가 7개 모두 거부했다.</p></article>
+          <article class="summary-card"><span class="status hold">Conditional</span><h3>Plane normal만 후보로 유지</h3><p>GT-blind 동결 뒤 유효 4개를 평가해 회전 3승 1패, 평균 −0.82°. 한 실패를 미리 구별하지 못해 아직 채택하지 않는다.</p></article>
         </div>
-        <div class="verdict"><b>한 문장</b><span><strong>공식 방법은 공식 조건에서 재현됐고, KIBO에서는 digital-twin correction이 작동하기 전에 metric VIO가 무너졌다.</strong></span></div>
+        <div class="verdict"><b>한 문장</b><span><strong>SVO-DT는 공식 조건에서 재현됐고 KIBO에서는 DT 정합 전에 VIO가 무너졌으며, 별도의 PicoFlex–CAD ICP도 공식 보정 후 신뢰 가능한 개선을 만들지 못했다.</strong></span></div>
       </section>
 
       <section class="note-section" id="svodt-native" data-title="01 · SVO-DT 공식 재현">
@@ -130,7 +134,7 @@
           <article class="claim open"><h3>가져오지 않을 구성</h3><ul><li>SVO/IMU frontend 전체</li><li>지속적인 global-position 의존</li><li>KIBO point-cloud ICP를 핵심 anchor로 사용</li></ul></article>
         </div>
         <details><summary>재현 조건과 고정 버전</summary><div>공식 저장소 commit <code>d64132270dd448d471a964b63035fdb995eed927</code>, ROS Noetic 격리 Docker, 공개 launch/calibration/frontend/backend/ICP 설정을 그대로 사용했다. 공식 repository working tree는 수정하지 않았다.</div></details>
-        <details><summary>폐기한 SVO-DT-style ICP adaptation</summary><div><div class="table-wrap"><table aria-label="Rejected PicoFlex ICP controls"><thead><tr><th>내부 control</th><th>Position RMSE</th><th>Rotation RMSE</th></tr></thead><tbody><tr class="primary-row"><td>DART-only · full 739</td><td>0.10575 m</td><td>1.25598°</td></tr><tr><td>+ f200 PicoFlex ICP</td><td>0.20991 m</td><td>3.66548°</td></tr><tr><td>+ repeated PicoFlex ICP</td><td>0.17542 m</td><td>4.20240°</td></tr></tbody></table><div class="table-note">Offline geometry control이며 공식 SVO-DT가 아니다. KIBO에서는 두 adaptation 모두 DART-only보다 악화돼 채택하지 않았다.</div></div></div></details>
+        <details><summary>초기 SVO-DT-style ICP 수치를 폐기한 이유</summary><div>초기 offline control은 공식 SVO-DT가 아니며, Haz–Nav 외부보정 방향 반전과 <code>haz_cam_depth_to_image_transform</code> 누락이 확인됐다. 해당 악화 수치는 PicoFlex 성능 근거로 사용하지 않는다. 수정된 재실행과 채택 판단은 <a href="#picoflex-audit">PicoFlex–CAD ICP 감사</a>에 분리했다.</div></details>
       </section>
 
       <section class="note-section" id="svodt-kibo" data-title="02 · SVO-DT KIBO 실패">
@@ -160,9 +164,92 @@
         <details><summary>실행 조건과 실패 근거</summary><div>939 undistorted frames, f50–199 frozen corruption, 19,156 raw <code>/hw/imu</code> messages, Bumble camera–IMU extrinsic, zero initial biases, start-only full pose, no PicoFlex. World output은 POST 시작 8.86초 전에 끝났고 실제 CAD registration은 PRE 1회뿐이었다.</div></details>
       </section>
 
-      <section class="note-section" id="reported-failures" data-title="03 · 선행 실패 조건 직접 재실행">
+      <section class="note-section" id="picoflex-audit" data-title="03 · PicoFlex–CAD ICP 감사">
         <div class="section-head">
           <div class="section-number">03</div>
+          <div><h2>PicoFlex–CAD ICP 감사</h2><p>Depth 센서와 정합 구현을 분리해 검사했다. 초기 악화 수치는 유효한 센서 평가가 아니다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><b>Exact</b><span>저장 cloud = 원본 rosbag</span></div>
+          <div class="metric bad"><b>62.9 ms</b><span>f200 보정 후 RGB–depth 잔차</span></div>
+          <div class="metric bad"><b>13.9 cm</b><span>잘못된 변환의 좌표 오차 중앙값</span></div>
+          <div class="metric"><b>0 / 7</b><span>수정 후 full-6DoF ICP 승인</span></div>
+        </div>
+        <div class="failure-flow" aria-label="PicoFlex audit chain">
+          <div class="flow-box"><b>Raw PointCloud2 · 정상</b><span>224×171 · haz_cam · meter · bag과 bit-exact</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box fail"><b>초기 변환 체인 · 무효</b><span>Nav→Haz를 역방향 사용 + depth affine 누락</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><b>공식 체인 재실행 · no-op</b><span>7 anchors · 모든 observable gate가 correction 거부</span></div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="PicoFlex synchronization and calibration audit">
+            <thead><tr><th>검사</th><th>판정</th><th>측정 결과</th><th>영향</th></tr></thead>
+            <tbody>
+              <tr><td>원본 point cloud</td><td><span class="role direct">정상</span></td><td>원본 bag과 array-equal</td><td>잘못된 파일·parser 아님</td></tr>
+              <tr><td>RGB–depth 시간</td><td><span class="role supplement">거친 nearest</span></td><td>f200 62.9 ms · 전체 |잔차| median 34.5 ms</td><td>f200 약 5.3 mm / 0.36° motion</td></tr>
+              <tr><td>Haz–Nav extrinsic</td><td><span class="role related">오류</span></td><td>config의 Nav→Haz를 Haz→Nav로 사용</td><td>inverse 필요</td></tr>
+              <tr><td>Depth affine</td><td><span class="role related">누락</span></td><td><code>haz_cam_depth_to_image_transform</code> 미적용</td><td>raw depth 좌표계가 image camera와 불일치</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>주원인.</b> f200, 2 m 이내 점에서 보정 체인 오류가 만든 좌표 차이는 median 13.9 cm였다. 같은 구간의 시간 오차 영향 상한 약 1.8 cm보다 훨씬 크다.</div>
+        </div>
+        <div class="signal" aria-label="Correct PicoFlex transform chain">
+          <span>Raw depth</span><i>→</i><span>Depth affine</span><i>→</i><span>inverse(Nav→Haz)</span><i>→</i><span>Pose at depth time</span><i>→</i><span class="target">CAD frame</span>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Corrected PicoFlex registration ablation">
+            <thead><tr><th>수정 후 후보</th><th>Position W/L</th><th>Rotation W/L</th><th>평균 Δ position</th><th>평균 Δ rotation</th><th>Gate 승인</th></tr></thead>
+            <tbody>
+              <tr><td>Single · rotation ≤0.5°</td><td>2 / 5</td><td>2 / 5</td><td>+0.10 mm</td><td>+0.106°</td><td>0 / 7</td></tr>
+              <tr><td>Single · translation ≤2 cm</td><td>2 / 5</td><td>—</td><td>+5.92 mm</td><td>—</td><td>0 / 7</td></tr>
+              <tr><td>Single · full ≤2 cm / 0.5°</td><td>3 / 4</td><td>3 / 4</td><td>+2.47 mm</td><td>+0.147°</td><td>0 / 7</td></tr>
+              <tr><td>Multi-3 · rotation ≤0.5°</td><td>2 / 5</td><td>3 / 4</td><td>+0.14 mm</td><td>+0.099°</td><td>0 / 7</td></tr>
+              <tr><td>Multi-3 · full ≤2 cm / 0.5°</td><td>2 / 5</td><td>3 / 4</td><td>+3.04 mm</td><td>+0.117°</td><td>0 / 7</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>Protocol.</b> 공식 변환 · cloud-time 보간 · NASA organized filter · visibility raycast · robust trimmed point-to-plane · GT는 scoring에만 사용. 양의 Δ는 오차 악화다.</div>
+        </div>
+        <div class="metric-grid" aria-label="Dominant plane partial factor pilot">
+          <div class="metric"><b>4 / 7</b><span>GT 없이 geometry gate 통과</span></div>
+          <div class="metric"><b>3 W / 1 L</b><span>통과 앵커의 normal-only 회전</span></div>
+          <div class="metric"><b>−0.820°</b><span>통과 앵커 평균 Δ rotation</span></div>
+          <div class="metric"><b>0.000 m</b><span>normal-only 위치 변화</span></div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Frozen seven-anchor dominant plane partial-DOF experiment">
+            <thead><tr><th>동결된 partial factor</th><th>Gate</th><th>통과분 W / L</th><th>통과분 평균 변화</th><th>판정</th></tr></thead>
+            <tbody>
+              <tr class="primary-row"><td>Plane normal only</td><td>4 / 7</td><td>Rotation 3 / 1</td><td>−0.820°</td><td>조건부 후보</td></tr>
+              <tr><td>Signed distance only</td><td>4 / 7</td><td>Position 1 / 3</td><td>+4.89 mm</td><td>폐기</td></tr>
+              <tr><td>Normal + distance</td><td>4 / 7</td><td>R 3 / 1 · t 1 / 3</td><td>−0.820° · +5.48 mm</td><td>폐기</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>Frozen protocol.</b> 후보·gate·설정을 GT 열람 전에 SHA로 고정한 뒤 GT는 scoring에만 사용했다. Normal-only의 유일한 실패 f658은 +0.646°였고, support·planarity·CAD coverage·temporal consistency 중 어느 사전 지표로도 성공 샘플과 구별되지 않았다. 따라서 엄격한 일반 채택 판정은 <b>NO</b>다.</div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Alternative uses of PicoFlex depth">
+            <thead><tr><th>Depth 사용법</th><th>실제로 주는 정보</th><th>현재 판단</th></tr></thead>
+            <tbody>
+              <tr><td>Raw cloud → full CAD 6DoF ICP</td><td>퇴화 방향까지 강제로 update</td><td><span class="role related">폐기</span></td></tr>
+              <tr><td>Rendered depth → projective factor</td><td>CAD z-buffer와 같은 pixel의 관측 가능한 Hessian 방향</td><td><span class="role direct">P0 · 다음 실험</span></td></tr>
+              <tr><td>3–10 frame finite plane track → fixed CAD plane</td><td>Plane normal의 tilt만 사용; 거리 update는 제외</td><td><span class="role separate">실험 · 조건부</span></td></tr>
+              <tr><td>Motion-compensated TSDF/local map</td><td>Depth denoising·hole 보완; 독립 global pose는 아님</td><td><span class="role supplement">P2 · 필요할 때</span></td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>한 평면의 한계.</b> 평면 접선 이동 2축과 normal축 회전은 관측할 수 없다. 해당 3축은 기존 visual PnP/HI-SLAM2 prior에 남기고, depth는 보이는 방향만 covariance-weighted factor로 더한다.</div>
+        </div>
+        <div class="claim-grid">
+          <article class="claim done"><h3>확정된 결론</h3><ul><li>PicoFlex 원본과 XYZ parser는 정상</li><li>Raw cloud→full CAD 6DoF ICP는 폐기</li><li>Plane distance update도 폐기</li></ul></article>
+          <article class="claim open"><h3>남은 depth 후보</h3><ul><li>Normal-only factor를 visual prior와 융합</li><li>Rendered Pico-to-CAD + eigendirection gate</li><li>강제 pose overwrite 없이 robust graph fusion</li></ul></article>
+        </div>
+        <details><summary>왜 dominant plane은 보조 factor로는 타당한가?</summary><div>한 평면은 normal 방향 거리와 tilt만 제약하고, 평면 접선 이동 2축과 normal축 회전은 볼 수 없다. DART에서는 고정 CAD plane이 절대 기준이고 visual PnP/HI-SLAM2가 남은 자유도를 제공하므로, depth가 관측한 방향만 graph factor로 더하는 구성이 맞다. 한 RGB line과 한 depth plane으로 3DoF 절대 회전을 구한 <a href="https://openaccess.thecvf.com/content_cvpr_2018/html/Kim_Indoor_RGB-D_Compass_CVPR_2018_paper.html" target="_blank" rel="noreferrer">Indoor RGB-D Compass</a>, orthogonal plane을 이용한 <a href="https://openaccess.thecvf.com/content_ECCV_2018/html/Pyojin_Kim_Linear_RGB-D_SLAM_ECCV_2018_paper.html" target="_blank" rel="noreferrer">Linear RGB-D SLAM</a>, 관측 불가 방향을 초기 odometry에 남기는 <a href="https://arxiv.org/html/2211.16335v4" target="_blank" rel="noreferrer">X-ICP</a>가 직접적인 설계 근거다. 반대로 joint-estimated monocular plane의 pose 개선은 제한적이라는 <a href="https://openaccess.thecvf.com/content/ICCV2023W/WiCV/html/Arndt_Do_Planar_Constraints_Improve_Camera_Pose_Estimation_in_Monocular_SLAM_ICCVW_2023_paper.html" target="_blank" rel="noreferrer">ICCVW 2023 분석</a>도 있어, plane 자체를 만능 pose source로 취급하지 않는다.</div></details>
+        <div class="verdict"><b>판단</b><span><strong>ICP가 본질적으로 틀린 것이 아니라, partial single-depth를 full CAD에 6DoF로 강제한 구성이 틀렸다.</strong> 현재는 visual pose prior + plane-normal partial factor가 유망하고, 최종 후보는 visible rendered-depth residual을 관측 가능한 고유방향에만 넣는 방식이다.</span></div>
+      </section>
+
+      <section class="note-section" id="reported-failures" data-title="04 · 선행 실패 조건 직접 재실행">
+        <div class="section-head">
+          <div class="section-number">04</div>
           <div><h2>선행 실패 조건 직접 재실행</h2><p>PPT의 긴 백업 제목을 압축했다. 기존 보고를 인용만 한 것이 아니라 해당 데이터에서 HI-SLAM2를 직접 실행한 결과다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="video-grid">
@@ -192,9 +279,9 @@
         <p class="micro-note">Archived baseline evidence · 위 ATE 그래프는 evo + Sim(3) Umeyama 정렬 결과이므로 DART의 direct-absolute 수치와 같은 표에 섞지 않는다. 원인 설명은 궤적·렌더·프레임에서 역추적한 강한 정황이며 내부 feature/BA/depth 계측으로 단일 원인을 확정한 실험은 아니다.</p>
       </section>
 
-      <section class="note-section" id="comparison-scope" data-title="04 · 연구 계보와 비교군">
+      <section class="note-section" id="comparison-scope" data-title="05 · 연구 계보와 비교군">
         <div class="section-head">
-          <div class="section-number">04</div>
+          <div class="section-number">05</div>
           <div><h2>연구 계보와 비교군</h2><p>DART-SLAM을 만든 세 연구 흐름과, 실제 평가에서 각 방법이 맡는 역할을 분리한다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="lineage" aria-label="Three research lineages combined in DART-SLAM">
@@ -226,9 +313,9 @@
         <div class="verdict"><b>논문 배치</b><span>SVO-DT, diS-Graphs, ivS-Graphs, BIM-vSLAM은 related-work/assumption 표에 포함한다. 공식 SVO-DT native 수치는 재현 검증으로, KIBO는 supplementary stress로만 제시한다.</span></div>
       </section>
 
-      <section class="note-section" id="map-provenance" data-title="05 · 3D 재구성 정본">
+      <section class="note-section" id="map-provenance" data-title="06 · 3D 재구성 정본">
         <div class="section-head">
-          <div class="section-number">05</div>
+          <div class="section-number">06</div>
           <div><h2>3D 재구성 정본</h2><p>PRE와 POST를 각 시작 anchor의 metric gauge에서 독립적으로 재구성한 최종 connected display map.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="viewer"><iframe loading="lazy" src="viewer.html" title="DART-SLAM final connected Gaussian map"></iframe></div>
@@ -256,9 +343,9 @@
         <div class="source-links"><a class="button primary" href="viewer.html">전체 화면 3D</a><a class="button" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>PLY 다운로드</a></div>
       </section>
 
-      <section class="note-section" id="open-items" data-title="06 · 미해결 항목">
+      <section class="note-section" id="open-items" data-title="07 · 미해결 항목">
         <div class="section-head">
-          <div class="section-number">06</div>
+          <div class="section-number">07</div>
           <div><h2>미해결 항목</h2><p>다음 실험과 미팅에서 바로 판단할 순서.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="task-list">
@@ -271,9 +358,9 @@
         <div class="question-chips" aria-label="Questions for the next meeting"><span>어떤 2–3개 시퀀스를 최종 고정할까?</span><span>연속 online 통합을 본문 필수로 볼까?</span><span>Real kidnap은 qualitative로 충분한가?</span><span>SVO-DT는 supplementary 어디까지 넣을까?</span></div>
       </section>
 
-      <section class="note-section" id="evidence-ledger" data-title="07 · 근거 파일">
+      <section class="note-section" id="evidence-ledger" data-title="08 · 근거 파일">
         <div class="section-head">
-          <div class="section-number">07</div>
+          <div class="section-number">08</div>
           <div><h2>근거 파일</h2><p>페이지 요약보다 아래 로컬 artifact가 우선한다. 경로 버튼은 미팅 후 작업을 바로 재개하기 위한 것.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="path-list">
@@ -281,6 +368,11 @@
           <div class="path"><code>~/exp1/baselines/svodt_d641322/REPRODUCE.md</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/REPRODUCE.md">경로 복사</button></div>
           <div class="path"><code>~/exp1/baselines/svodt_d641322/runs/oerlikon_official_full_v1/direct_metrics.json</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/runs/oerlikon_official_full_v1/direct_metrics.json">경로 복사</button></div>
           <div class="path"><code>~/exp1/baselines/svodt_d641322/runs/kibo_official_stress_v1/run_v3_final/direct_post_metrics.json</code><button class="copy" data-copy="~/exp1/baselines/svodt_d641322/runs/kibo_official_stress_v1/run_v3_final/direct_post_metrics.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/SUMMARY.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/SUMMARY.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/report.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/report.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/anchor_variant_table.csv</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/anchor_variant_table.csv">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/FINAL_REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/FINAL_REPORT.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/geometry_gate_summary.csv</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/geometry_gate_summary.csv">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json">경로 복사</button></div>
           <div class="path"><code>~/exp1/pitch_cad_anchor.pptx · slide 8</code><button class="copy" data-copy="~/exp1/pitch_cad_anchor.pptx">경로 복사</button></div>
           <div class="path"><code>~/exp1/.pitch_backup_latest.pptx · slide 8 exact backup</code><button class="copy" data-copy="~/exp1/.pitch_backup_latest.pptx">경로 복사</button></div>
@@ -288,6 +380,12 @@
         <div class="source-links">
           <a class="button" href="https://arxiv.org/abs/2412.08496" target="_blank" rel="noreferrer">SVO-DT paper</a>
           <a class="button" href="https://github.com/uzh-rpg/rpg_svo_pro_with_digital_twins" target="_blank" rel="noreferrer">SVO-DT code</a>
+          <a class="button" href="https://github.com/nasa/isaac/blob/3578a0dfa178e7fad357a02a87d83018209c150b/dense_map/geometry_mapper/tools/geometry_mapper.cc" target="_blank" rel="noreferrer">NASA depth geometry</a>
+          <a class="button" href="https://arxiv.org/abs/2211.16335" target="_blank" rel="noreferrer">X-ICP</a>
+          <a class="button" href="https://openaccess.thecvf.com/content_cvpr_2018/html/Kim_Indoor_RGB-D_Compass_CVPR_2018_paper.html" target="_blank" rel="noreferrer">RGB-D Compass</a>
+          <a class="button" href="https://openaccess.thecvf.com/content_ECCV_2018/html/Pyojin_Kim_Linear_RGB-D_SLAM_ECCV_2018_paper.html" target="_blank" rel="noreferrer">Linear RGB-D SLAM</a>
+          <a class="button" href="https://openaccess.thecvf.com/content/ICCV2023W/WiCV/html/Arndt_Do_Planar_Constraints_Improve_Camera_Pose_Estimation_in_Monocular_SLAM_ICCVW_2023_paper.html" target="_blank" rel="noreferrer">Plane constraint audit</a>
+          <a class="button" href="https://arxiv.org/abs/1706.04034" target="_blank" rel="noreferrer">Probabilistic RGB-D</a>
           <a class="button" href="https://arxiv.org/abs/2408.01737" target="_blank" rel="noreferrer">diS-Graphs paper</a>
           <a class="button" href="https://github.com/cvg/Hierarchical-Localization" target="_blank" rel="noreferrer">HLoc</a>
           <a class="button" href="https://arxiv.org/abs/2207.10762" target="_blank" rel="noreferrer">MeshLoc</a>
