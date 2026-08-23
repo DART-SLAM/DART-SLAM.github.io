@@ -73,11 +73,12 @@
       <a href="#svodt-native">01 · SVO-DT 공식 재현</a>
       <a href="#svodt-kibo">02 · SVO-DT KIBO 실패</a>
       <a href="#picoflex-audit">03 · PicoFlex–CAD ICP 감사</a>
-      <a href="#reported-failures">04 · 선행 실패 조건 직접 재실행</a>
-      <a href="#comparison-scope">05 · 연구 계보와 비교군</a>
-      <a href="#map-provenance">06 · 3D 재구성 정본</a>
-      <a href="#open-items">07 · 미해결 항목</a>
-      <a href="#evidence-ledger">08 · 근거 파일</a>
+      <a href="#evaluation-ledger">04 · 정량 실험 정본</a>
+      <a href="#reported-failures">05 · 선행 실패 조건 직접 재실행</a>
+      <a href="#comparison-scope">06 · 연구 계보와 비교군</a>
+      <a href="#map-provenance">07 · 3D 재구성 정본</a>
+      <a href="#open-items">08 · 미해결 항목</a>
+      <a href="#evidence-ledger">09 · 근거 파일</a>
       <p class="toc-note">제목과 내용이 일치하도록 실험 단위로 분리했다.</p>
     </aside>
 
@@ -264,9 +265,64 @@
         <div class="verdict"><b>판단</b><span><strong>ICP가 본질적으로 틀린 것이 아니라, partial single-depth를 full CAD에 6DoF로 강제한 구성이 틀렸다.</strong> 현재는 visual pose prior + plane-normal partial factor가 유망하고, 최종 후보는 visible rendered-depth residual을 관측 가능한 고유방향에만 넣는 방식이다.</span></div>
       </section>
 
-      <section class="note-section" id="reported-failures" data-title="04 · 선행 실패 조건 직접 재실행">
+      <section class="note-section" id="evaluation-ledger" data-title="04 · 정량 실험 정본">
         <div class="section-head">
           <div class="section-number">04</div>
+          <div><h2>정량 실험 정본</h2><p>서로 다른 평가 가정을 섞지 않고, 현재 잠긴 full-SLAM·module·localizer 결과를 한곳에 둔다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Absolute pose evaluation protocol separation">
+            <thead><tr><th>프로토콜</th><th>한 번 제공되는 정보</th><th>KIBO full739</th><th>FFROT exact78</th><th>TD-yaw full79</th><th>사용 범위</th></tr></thead>
+            <tbody>
+              <tr><td>Current GT-free</td><td>Estimated anchor</td><td>0.105748 m / 1.255977°</td><td>0.648026 m / 3.054594°</td><td>—</td><td>End-to-end 개발</td></tr>
+              <tr class="primary-row"><td>Known metric start</td><td>첫 POST metric pose</td><td>0.055362 m / 0.418043°</td><td>0.071381 m / 0.472940°</td><td>0.008622 m / 0.213676°</td><td>Declared ablation</td></tr>
+              <tr><td>POST-GT retrospective</td><td>POST GT fit</td><td>0.032976 m / 0.867218°</td><td>—</td><td>—</td><td>내부 upper bound</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>경계.</b> Known-start는 첫 POST pose를 한 번 주고 이후 GT는 scoring에만 쓴다. POST-GT retrospective와 같은 사후 정렬이 아니다.</div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Known metric start full SLAM comparison">
+            <thead><tr><th>Sequence / support</th><th>DART-SLAM</th><th>HI-SLAM2</th><th>Target</th></tr></thead>
+            <tbody>
+              <tr class="primary-row"><td>KIBO · full739</td><td>0.055362 m / 0.418043°</td><td>8.130589 m / 83.912656°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>FFROT · exact78</td><td>0.071381 m / 0.472940°</td><td>13.495741 m / 113.277097°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>TD-yaw · full79</td><td>0.008622 m / 0.213676°</td><td>0.275059 m / 17.828688°</td><td>Pass</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">세 시퀀스 모두 같은 declared known-metric-start 조건에서 &lt;0.10 m / &lt;2°를 만족한다.</div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Five sequence module consistency audit">
+            <thead><tr><th>Sequence</th><th>n</th><th>Backbone / raw</th><th>+ first anchor</th><th>+ rotation graph</th></tr></thead>
+            <tbody>
+              <tr><td>KIBO bag2</td><td>739</td><td>8.131 m / 83.91°</td><td>0.222 m / 2.17°</td><td>0.272 m / 2.84°</td></tr>
+              <tr><td>FFROT bag2</td><td>78</td><td>13.496 m / 113.28°</td><td>0.648 m / 3.05°</td><td>—</td></tr>
+              <tr><td>IVA KIBO trans</td><td>200</td><td>0.083 m / 0.51°</td><td>0.456 m / 7.13°</td><td>—</td></tr>
+              <tr><td>TD-yaw</td><td>79</td><td>0.275 m / 17.83°</td><td>0.512 m / 2.07°</td><td>0.512 m / 0.85°</td></tr>
+              <tr><td>FF return-left</td><td>200</td><td>2.392 m / 134.49°</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note"><b>Common policy.</b> <code>pooled_balanced_f</code>, no POST-GT fit. 첫 anchor·rotation graph·Manhattan 이득은 시퀀스별로 일관적이지 않다. 병목은 relative POST가 아니라 absolute-anchor selection/gating이다.</div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Frozen 83 query absolute localizer comparison">
+            <thead><tr><th>Method</th><th>Pose output</th><th>Median t / R</th><th>≤0.25 m / 2°</th><th>≤0.5 m / 5°</th><th>≤5 m / 10°</th></tr></thead>
+            <tbody>
+              <tr><td>DART raw PnP</td><td>76 / 83</td><td>0.222504 m / 3.747875°</td><td>15 / 83</td><td>46 / 83</td><td>54 / 83</td></tr>
+              <tr class="primary-row"><td>DART + Manhattan</td><td>76 / 83</td><td>0.199428 m / 2.104309°</td><td>31 / 83</td><td>53 / 83</td><td>53 / 83</td></tr>
+              <tr><td>HLoc · SP+SG</td><td>83 / 83</td><td>0.505556 m / 11.333537°</td><td>8 / 83</td><td>33 / 83</td><td>38 / 83</td></tr>
+              <tr><td>MeshLoc · SP+SG</td><td>83 / 83</td><td>0.407229 m / 3.549459°</td><td>3 / 83</td><td>48 / 83</td><td>57 / 83</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">같은 83 queries · intrinsics · 108 twin renders · GT-free NetVLAD top-20. HLoc/MeshLoc은 full SLAM이 아닌 독립 single-query localizer 비교다.</div>
+        </div>
+        <div class="verdict"><b>총평</b><span><strong>Known-start에서는 세 시퀀스가 목표를 통과하지만, 현재 GT-free 일반화 병목은 절대 anchor를 언제 믿을지 결정하는 gate다.</strong> Manhattan과 반복 rotation anchor는 아직 보조 단서이며 일괄 적용하지 않는다.</span></div>
+      </section>
+
+      <section class="note-section" id="reported-failures" data-title="05 · 선행 실패 조건 직접 재실행">
+        <div class="section-head">
+          <div class="section-number">05</div>
           <div><h2>선행 실패 조건 직접 재실행</h2><p>PPT의 긴 백업 제목을 압축했다. 기존 보고를 인용만 한 것이 아니라 해당 데이터에서 HI-SLAM2를 직접 실행한 결과다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="video-grid">
@@ -296,9 +352,9 @@
         <p class="micro-note">Archived baseline evidence · 위 ATE 그래프는 evo + Sim(3) Umeyama 정렬 결과이므로 DART의 direct-absolute 수치와 같은 표에 섞지 않는다. 원인 설명은 궤적·렌더·프레임에서 역추적한 강한 정황이며 내부 feature/BA/depth 계측으로 단일 원인을 확정한 실험은 아니다.</p>
       </section>
 
-      <section class="note-section" id="comparison-scope" data-title="05 · 연구 계보와 비교군">
+      <section class="note-section" id="comparison-scope" data-title="06 · 연구 계보와 비교군">
         <div class="section-head">
-          <div class="section-number">05</div>
+          <div class="section-number">06</div>
           <div><h2>연구 계보와 비교군</h2><p>DART-SLAM을 만든 세 연구 흐름과, 실제 평가에서 각 방법이 맡는 역할을 분리한다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="lineage" aria-label="Three research lineages combined in DART-SLAM">
@@ -330,9 +386,9 @@
         <div class="verdict"><b>논문 배치</b><span>SVO-DT, diS-Graphs, ivS-Graphs, BIM-vSLAM은 related-work/assumption 표에 포함한다. 공식 SVO-DT native 수치는 재현 검증으로, KIBO는 supplementary stress로만 제시한다.</span></div>
       </section>
 
-      <section class="note-section" id="map-provenance" data-title="06 · 3D 재구성 정본">
+      <section class="note-section" id="map-provenance" data-title="07 · 3D 재구성 정본">
         <div class="section-head">
-          <div class="section-number">06</div>
+          <div class="section-number">07</div>
           <div><h2>3D 재구성 정본</h2><p>PRE와 POST를 각 시작 anchor의 metric gauge에서 독립적으로 재구성한 최종 connected display map.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="viewer"><iframe loading="lazy" src="viewer.html" title="DART-SLAM final connected Gaussian map"></iframe></div>
@@ -360,9 +416,9 @@
         <div class="source-links"><a class="button primary" href="viewer.html">전체 화면 3D</a><a class="button" href="assets/kibo_bag2_connected_dart_slam_display_v1.ply" download>PLY 다운로드</a></div>
       </section>
 
-      <section class="note-section" id="open-items" data-title="07 · 미해결 항목">
+      <section class="note-section" id="open-items" data-title="08 · 미해결 항목">
         <div class="section-head">
-          <div class="section-number">07</div>
+          <div class="section-number">08</div>
           <div><h2>미해결 항목</h2><p>다음 실험과 미팅에서 바로 판단할 순서.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="task-list">
@@ -375,9 +431,9 @@
         <div class="question-chips" aria-label="Questions for the next meeting"><span>어떤 2–3개 시퀀스를 최종 고정할까?</span><span>연속 online 통합을 본문 필수로 볼까?</span><span>Real kidnap은 qualitative로 충분한가?</span><span>SVO-DT는 supplementary 어디까지 넣을까?</span></div>
       </section>
 
-      <section class="note-section" id="evidence-ledger" data-title="08 · 근거 파일">
+      <section class="note-section" id="evidence-ledger" data-title="09 · 근거 파일">
         <div class="section-head">
-          <div class="section-number">08</div>
+          <div class="section-number">09</div>
           <div><h2>근거 파일</h2><p>페이지 요약보다 아래 로컬 artifact가 우선한다. 경로 버튼은 미팅 후 작업을 바로 재개하기 위한 것.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
         <div class="path-list">
@@ -390,6 +446,10 @@
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/anchor_variant_table.csv</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_icp_ablation_v2_final/anchor_variant_table.csv">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/FINAL_REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/FINAL_REPORT.md">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/geometry_gate_summary.csv</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/geometry_gate_summary.csv">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/final_comparison_ledger_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/final_comparison_ledger_v1/REPORT.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/final_success_set_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/final_success_set_v1/REPORT.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/five_sequence_module_consistency_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/five_sequence_module_consistency_v1/REPORT.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/frozen83_localizer_fair_comparison_audit_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/frozen83_localizer_fair_comparison_audit_v1/REPORT.md">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json">경로 복사</button></div>
           <div class="path"><code>~/exp1/pitch_cad_anchor.pptx · slide 8</code><button class="copy" data-copy="~/exp1/pitch_cad_anchor.pptx">경로 복사</button></div>
           <div class="path"><code>~/exp1/.pitch_backup_latest.pptx · slide 8 exact backup</code><button class="copy" data-copy="~/exp1/.pitch_backup_latest.pptx">경로 복사</button></div>
