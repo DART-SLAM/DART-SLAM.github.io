@@ -41,6 +41,24 @@
       box-shadow: 0 16px 50px rgba(32, 37, 43, .08);
     }
     .figure img { display: block; width: 100%; height: auto; }
+    .rank-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 14px auto 0;
+    }
+    .rank-links a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .rank-links a:hover { border-color: var(--blue); color: var(--blue); }
     details {
       max-width: 1160px;
       margin: 18px auto 0;
@@ -75,6 +93,14 @@
     <section class="figure" aria-label="Related-work capability map">
       <img src="./assets/related-work-gap.svg" alt="Capability map showing the open regime between model localization, digital-twin SLAM, and post-loss disconnected-map reconnection.">
     </section>
+    <nav class="rank-links" aria-label="Ranked related-work papers">
+      <a href="https://doi.org/10.1016/j.isprsjprs.2026.06.026">1 · BIM-vSLAM ↗</a>
+      <a href="https://arxiv.org/abs/2412.08496">2 · SVO-DT ↗</a>
+      <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Cheng_PiLoT_Neural_Pixel-to-3D_Registration_for_UAV-based_Ego_and_Target_Geo-localization_CVPR_2026_paper.html">3 · PiLoT ↗</a>
+      <a href="https://arxiv.org/abs/2408.11085">4 · GS-CPR ↗</a>
+      <a href="https://arxiv.org/abs/2302.06287">5 · Render2Loc ↗</a>
+      <a href="https://arxiv.org/abs/2207.10762">6 · MeshLoc ↗</a>
+    </nav>
     <details>
       <summary>Primary sources and scope</summary>
       <div class="sources">
