@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An audited capability map of visual localization, digital-twin SLAM, and DART-SLAM's post-loss map-reconnection target.">
+  <title>DART-SLAM · Related-work gap</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f4ef;
+      --ink: #15191e;
+      --muted: #66707a;
+      --line: #d9dad7;
+      --blue: #1769aa;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); font-family: Helvetica, "Helvetica Neue", Arial, sans-serif; }
+    body { margin: 0; color: var(--ink); }
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 18px 28px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .bar a { color: inherit; text-decoration: none; }
+    .bar a:hover { color: var(--blue); }
+    .bar .stamp { color: var(--muted); font-weight: 500; }
+    main { max-width: 1600px; margin: 0 auto; padding: 0 20px 38px; }
+    .figure {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 16px 50px rgba(32, 37, 43, .08);
+    }
+    .figure img { display: block; width: 100%; height: auto; }
+    details {
+      max-width: 1160px;
+      margin: 18px auto 0;
+      padding: 15px 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    summary { cursor: pointer; color: var(--ink); font-weight: 700; }
+    .sources { display: flex; flex-wrap: wrap; gap: 7px 14px; margin-top: 12px; }
+    .sources a { color: var(--blue); text-decoration: none; white-space: nowrap; }
+    .sources a:hover { text-decoration: underline; }
+    .scope { margin: 12px 0 0; }
+    @media (max-width: 700px) {
+      .bar { padding: 14px 16px 8px; }
+      .bar .stamp { display: none; }
+      main { padding: 0 8px 28px; }
+      .figure { border-radius: 12px; }
+      .figure img { width: 1100px; max-width: none; }
+      details { margin-top: 12px; padding-inline: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="bar" aria-label="Page navigation">
+    <a href="./research-notes.html">DART-SLAM · research notes</a>
+    <span class="stamp">Primary papers audited · 24 Aug 2026</span>
+    <a href="./assets/related-work-gap.svg" download>SVG ↓</a>
+  </nav>
+  <main>
+    <section class="figure" aria-label="Related-work capability map">
+      <img src="./assets/related-work-gap.svg" alt="Capability map showing the open regime between model localization, digital-twin SLAM, and post-loss disconnected-map reconnection.">
+    </section>
+    <details>
+      <summary>Primary sources and scope</summary>
+      <div class="sources">
+        <a href="https://arxiv.org/abs/2411.17982">HI-SLAM2</a>
+        <a href="https://arxiv.org/abs/2412.12392">MASt3R-SLAM</a>
+        <a href="https://arxiv.org/abs/2504.03886">WildGS-SLAM</a>
+        <a href="https://openaccess.thecvf.com/content_CVPR_2019/html/Sarlin_From_Coarse_to_Fine_Robust_Hierarchical_Localization_at_Large_Scale_CVPR_2019_paper.html">HLoc</a>
+        <a href="https://openaccess.thecvf.com/content_cvpr_2018/html/Taira_InLoc_Indoor_Visual_CVPR_2018_paper.html">InLoc</a>
+        <a href="https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136820573.pdf">MeshLoc</a>
+        <a href="https://arxiv.org/abs/2302.06287">Render2Loc</a>
+        <a href="https://arxiv.org/abs/2408.11085">GS-CPR</a>
+        <a href="https://arxiv.org/abs/2603.16538">UGS-Loc</a>
+        <a href="https://arxiv.org/abs/2508.18242">GSVisLoc</a>
+        <a href="https://arxiv.org/abs/2412.00138">RAP</a>
+        <a href="https://arxiv.org/abs/2603.20778">PiLoT</a>
+        <a href="https://openaccess.thecvf.com/content/CVPR2025/papers/Deng_Pos3R_6D_Pose_Estimation_for_Unseen_Objects_Made_Easy_CVPR_2025_paper.pdf">Pos3R</a>
+        <a href="https://arxiv.org/abs/2412.08496">SVO-DT</a>
+        <a href="https://arxiv.org/abs/2408.01737">diS-Graphs</a>
+        <a href="https://arxiv.org/abs/2509.13972">ivS-Graphs</a>
+        <a href="https://doi.org/10.1061/JCCEE5.CPENG-5301">BIM object relocalization</a>
+        <a href="https://doi.org/10.1016/j.isprsjprs.2026.06.026">BIM-vSLAM</a>
+      </div>
+      <p class="scope">The open cell is a bounded literature finding: it means “not demonstrated among the primary works audited here,” not a universal first claim. Marker position represents task scope and assumptions, not accuracy.</p>
+    </details>
+  </main>
+</body>
+</html>

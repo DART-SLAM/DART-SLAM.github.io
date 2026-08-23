@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">DART-SLAM related-work capability map</title>
+  <desc id="desc">A capability map separating single-query pose estimation, continuous model-aided SLAM, and post-loss disconnected-map reconnection. The reviewed literature leaves the RGB-only design-CAD post-loss reconnection regime unproven.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#20252b" flood-opacity="0.08"/>
+    </filter>
+    <pattern id="stripes" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="8" fill="#fff7e8"/>
+      <rect width="3" height="8" fill="#e58b00" fill-opacity="0.46"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#66707a"/>
+    </marker>
+    <style>
+      text{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;fill:#15191e}
+      .kicker{font-size:13px;font-weight:700;letter-spacing:2.3px;fill:#1769aa}
+      .title{font-size:38px;font-weight:800;letter-spacing:-1.2px}
+      .subtitle{font-size:17px;fill:#66707a}
+      .band{font-size:12px;font-weight:800;letter-spacing:1.55px;fill:#7e8790}
+      .axis{font-size:12px;font-weight:700;letter-spacing:1.2px;fill:#66707a}
+      .method{font-size:14px;font-weight:700}
+      .methodSmall{font-size:13px;font-weight:700}
+      .note{font-size:11px;fill:#7e8790}
+      .legendHead{font-size:12px;font-weight:800;letter-spacing:1.45px;fill:#66707a}
+      .legendText{font-size:13px;fill:#3c444c}
+      .threat{font-size:13px;font-weight:700}
+      .threatNote{font-size:11px;fill:#66707a}
+      .targetHead{font-size:17px;font-weight:800;letter-spacing:.4px;fill:#1769aa}
+      .targetText{font-size:14px;font-weight:700}
+      .targetSub{font-size:12px;fill:#66707a}
+      .ribbonHead{font-size:12px;font-weight:800;letter-spacing:1.35px}
+      .ribbonText{font-size:14px;font-weight:700}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#f5f4ef"/>
+  <text x="70" y="58" class="kicker">RELATED-WORK MAP · AUDITED 2026-08-24</text>
+  <text x="70" y="103" class="title">THE OPEN GAP: TRUSTED RECOVERY AFTER SLAM STATE LOSS.</text>
+  <text x="70" y="135" class="subtitle">The matcher is prior art. The unresolved system must reject false anchors, recover metric gauge, and reconnect maps.</text>
+
+  <!-- Plot bands -->
+  <rect x="145" y="166" width="1055" height="190" rx="18" fill="#eef5fb"/>
+  <rect x="145" y="356" width="1055" height="270" rx="18" fill="#f0f0ed"/>
+  <rect x="145" y="626" width="1055" height="174" rx="18" fill="#faf9f6"/>
+  <line x1="145" y1="356" x2="1200" y2="356" stroke="#d7d9d8"/>
+  <line x1="145" y1="626" x2="1200" y2="626" stroke="#d7d9d8"/>
+  <line x1="450" y1="166" x2="450" y2="800" stroke="#dfe1df" stroke-dasharray="5 8"/>
+  <line x1="780" y1="166" x2="780" y2="800" stroke="#dfe1df" stroke-dasharray="5 8"/>
+  <line x1="1050" y1="166" x2="1050" y2="800" stroke="#dfe1df" stroke-dasharray="5 8"/>
+
+  <text x="165" y="194" class="band">POST-LOSS DISCONNECTED-MAP RECONNECTION</text>
+  <text x="165" y="384" class="band">CONTINUOUS DRIFT / MAP ALIGNMENT</text>
+  <text x="165" y="654" class="band">INDEPENDENT SINGLE-QUERY POSE</text>
+
+  <!-- Open target regime -->
+  <rect x="846" y="190" width="326" height="137" rx="18" fill="#fff" stroke="#1769aa" stroke-width="2.5" stroke-dasharray="8 7" filter="url(#shadow)"/>
+  <circle cx="876" cy="223" r="11" fill="#fff" stroke="#1769aa" stroke-width="3"/>
+  <path d="M876 211 L879 219 L888 219 L881 225 L884 234 L876 229 L868 234 L871 225 L864 219 L873 219 Z" fill="#e58b00"/>
+  <text x="900" y="218" class="targetHead">OPEN REGIME</text>
+  <text x="870" y="253" class="targetText">Monocular RGB · design CAD</text>
+  <text x="870" y="278" class="targetText">No POST pose · repeated structure</text>
+  <text x="870" y="303" class="targetSub">Reject false anchors · recover scale · reconnect maps</text>
+
+  <!-- DART current evidence marker and arrow -->
+  <circle cx="758" cy="307" r="15" fill="url(#stripes)" stroke="#e58b00" stroke-width="2.5"/>
+  <line x1="774" y1="298" x2="839" y2="263" stroke="#66707a" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+  <rect x="624" y="274" width="118" height="48" rx="10" fill="#fff" stroke="#e5c58d"/>
+  <text x="637" y="294" class="method">DART current</text>
+  <text x="637" y="312" class="note">offline · dev</text>
+
+  <!-- Continuous SLAM / alignment methods -->
+  <circle cx="260" cy="561" r="11" fill="#98a0a7"/>
+  <text x="279" y="557" class="method">HI-SLAM2</text>
+  <text x="279" y="574" class="note">RGB SLAM · loop closure</text>
+
+  <circle cx="365" cy="521" r="11" fill="#98a0a7"/>
+  <text x="384" y="517" class="method">MASt3R-SLAM</text>
+  <text x="384" y="534" class="note">RGB SLAM · global opt.</text>
+
+  <circle cx="284" cy="462" r="11" fill="#98a0a7"/>
+  <text x="303" y="458" class="method">WildGS-SLAM</text>
+  <text x="303" y="475" class="note">dynamic-scene RGB SLAM</text>
+
+  <polygon points="245,395 231,421 259,421" fill="#e58b00"/>
+  <text x="269" y="409" class="method">SVO-DT</text>
+  <text x="269" y="426" class="note">VIO + GPS init · local ICP</text>
+
+  <rect x="486" y="425" width="21" height="21" rx="2" fill="#e58b00" transform="rotate(45 496.5 435.5)"/>
+  <text x="519" y="431" class="method">ivS-Graphs</text>
+  <text x="519" y="448" class="note">RGB-D · manual wall pairs</text>
+
+  <rect x="618" y="489" width="21" height="21" rx="2" fill="#e58b00" transform="rotate(45 628.5 499.5)"/>
+  <text x="651" y="495" class="methodSmall">BIM object reloc.</text>
+  <text x="651" y="512" class="note">RGB-D + IMU · pose graph</text>
+
+  <circle cx="535" cy="579" r="11" fill="#1769aa"/>
+  <text x="554" y="575" class="method">PiLoT</text>
+  <text x="554" y="592" class="note">first coarse pose · sequential 3D map</text>
+
+  <circle cx="763" cy="419" r="12" fill="#e58b00"/>
+  <text x="784" y="415" class="method">BIM-vSLAM</text>
+  <text x="784" y="432" class="note">monocular · BIM planes</text>
+
+  <rect x="949" y="478" width="22" height="22" rx="2" fill="#e58b00" transform="rotate(45 960 489)"/>
+  <text x="982" y="485" class="method">diS-Graphs</text>
+  <text x="982" y="502" class="note">LiDAR · global plan graph</text>
+
+  <!-- Single-query methods -->
+  <circle cx="250" cy="715" r="11" fill="#1769aa"/>
+  <text x="269" y="711" class="method">GS-CPR</text>
+  <text x="269" y="728" class="note">coarse pose · 3DGS</text>
+
+  <circle cx="370" cy="758" r="11" fill="#1769aa"/>
+  <text x="389" y="754" class="method">UGS-Loc</text>
+  <text x="389" y="771" class="note">coarse pose · particles</text>
+
+  <circle cx="478" cy="693" r="10" fill="#1769aa"/>
+  <text x="496" y="689" class="methodSmall">RAP + post-ref.</text>
+  <text x="496" y="706" class="note">coarse APR pose · 3DGS</text>
+
+  <circle cx="576" cy="762" r="10" fill="#1769aa"/>
+  <text x="594" y="758" class="methodSmall">Render2Loc</text>
+  <text x="594" y="775" class="note">GPS + compass + gravity</text>
+
+  <circle cx="739" cy="759" r="10" fill="#1769aa"/>
+  <text x="757" y="755" class="method">InLoc</text>
+  <text x="757" y="772" class="note">RGB-D database</text>
+
+  <circle cx="847" cy="718" r="10" fill="#1769aa"/>
+  <text x="865" y="714" class="method">HLoc</text>
+  <text x="865" y="731" class="note">SfM + image DB</text>
+
+  <circle cx="953" cy="765" r="10" fill="#1769aa"/>
+  <text x="971" y="761" class="method">MeshLoc</text>
+  <text x="971" y="778" class="note">mesh + retrieval</text>
+
+  <circle cx="978" cy="676" r="10" fill="#1769aa"/>
+  <text x="996" y="672" class="methodSmall">GSVisLoc</text>
+  <text x="996" y="689" class="note">global 3DGS pose</text>
+
+  <circle cx="1090" cy="670" r="11" fill="#e58b00"/>
+  <text x="1110" y="666" class="method">Pos3R</text>
+  <text x="1110" y="683" class="note">CAD · object scope</text>
+
+  <!-- X axis -->
+  <line x1="160" y1="824" x2="1183" y2="824" stroke="#66707a" stroke-width="1.7" marker-end="url(#arrow)"/>
+  <text x="160" y="850" class="axis">LOCAL / COARSE POSE</text>
+  <text x="1020" y="850" class="axis">NO POST POSE PRIOR</text>
+
+  <!-- Legend -->
+  <rect x="1225" y="166" width="310" height="634" rx="18" fill="#fff" stroke="#dedfdd" filter="url(#shadow)"/>
+  <text x="1252" y="204" class="legendHead">COLOR · EXTERNAL PRIOR</text>
+  <circle cx="1262" cy="235" r="9" fill="#1769aa"/>
+  <text x="1283" y="240" class="legendText">Captured scene model</text>
+  <circle cx="1262" cy="270" r="9" fill="#e58b00"/>
+  <text x="1283" y="275" class="legendText">As-designed CAD / BIM</text>
+  <circle cx="1262" cy="305" r="9" fill="#98a0a7"/>
+  <text x="1283" y="310" class="legendText">No external model</text>
+
+  <line x1="1250" y1="335" x2="1510" y2="335" stroke="#e3e4e2"/>
+  <text x="1252" y="369" class="legendHead">SHAPE · RECOVERY SENSOR</text>
+  <circle cx="1262" cy="401" r="9" fill="#e58b00"/>
+  <text x="1283" y="406" class="legendText">Monocular RGB</text>
+  <rect x="1254" y="431" width="16" height="16" rx="2" fill="#e58b00" transform="rotate(45 1262 439)"/>
+  <text x="1283" y="444" class="legendText">RGB-D or LiDAR</text>
+  <polygon points="1262,466 1252,484 1272,484" fill="#e58b00"/>
+  <text x="1283" y="481" class="legendText">VIO + global init</text>
+
+  <line x1="1250" y1="511" x2="1510" y2="511" stroke="#e3e4e2"/>
+  <text x="1252" y="545" class="legendHead">CLOSEST OVERLAPS</text>
+  <text x="1252" y="579" class="threat">GS-CPR</text>
+  <text x="1323" y="579" class="threatNote">same static MASt3R–PnP core</text>
+  <text x="1252" y="612" class="threat">PiLoT</text>
+  <text x="1304" y="612" class="threatNote">sequential 3D-map localization</text>
+  <text x="1252" y="645" class="threat">BIM-vSLAM</text>
+  <text x="1340" y="645" class="threatNote">monocular BIM-guided SLAM</text>
+
+  <rect x="1250" y="678" width="260" height="92" rx="12" fill="#eef5fb"/>
+  <text x="1267" y="704" class="legendHead" fill="#1769aa">BOUNDED CLAIM</text>
+  <text x="1267" y="730" class="legendText">Not demonstrated among</text>
+  <text x="1267" y="751" class="legendText">the audited works.</text>
+
+  <!-- Evidence ribbon -->
+  <rect x="70" y="884" width="1465" height="82" rx="16" fill="#fff" stroke="#dedfdd"/>
+  <rect x="70" y="884" width="26" height="82" rx="16" fill="#267a4d"/>
+  <text x="120" y="915" class="ribbonHead" fill="#267a4d">CURRENT EVIDENCE</text>
+  <text x="120" y="943" class="ribbonText">GT-blind dev anchors · independent causal PRE/POST · metric map concat</text>
+  <line x1="785" y1="900" x2="785" y2="950" stroke="#dedfdd"/>
+  <text x="820" y="915" class="ribbonHead" fill="#bd6e00">MISSING PROOF</text>
+  <text x="820" y="943" class="ribbonText">Automatic health trigger · frozen held-out gate · one continuous online run</text>
+
+  <text x="70" y="989" class="note">Position encodes task scope and assumptions—not accuracy. “Open” is limited to the primary works audited in the accompanying source ledger.</text>
+</svg>
