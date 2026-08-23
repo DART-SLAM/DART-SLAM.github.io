@@ -268,42 +268,66 @@
       <section class="note-section" id="evaluation-ledger" data-title="04 · 정량 실험 정본">
         <div class="section-head">
           <div class="section-number">04</div>
-          <div><h2>정량 실험 정본</h2><p>서로 다른 평가 가정을 섞지 않고, 현재 잠긴 full-SLAM·module·localizer 결과를 한곳에 둔다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
+          <div><h2>정량 실험 정본</h2><p>POST pose를 주지 않는 own-PRE 조건에서, 하나의 GT-blind 선택 규칙으로 잠근 결과다.</p><div class="section-tools"><button class="section-link" type="button" data-share>이 섹션 링크 복사</button></div></div>
         </div>
+        <div class="verdict"><b>Frozen protocol</b><span><strong>각 시퀀스 시작 PRE의 metric absolute pose만 한 번 제공한다.</strong> 이후 anchor 선택·정책·scale에는 POST GT를 쓰지 않고, POST GT는 모든 선택을 잠근 뒤 채점에만 연다.</span></div>
         <div class="table-wrap">
           <table aria-label="Absolute pose evaluation protocol separation">
-            <thead><tr><th>프로토콜</th><th>한 번 제공되는 정보</th><th>KIBO full739</th><th>FFROT exact78</th><th>TD-yaw full79</th><th>사용 범위</th></tr></thead>
+            <thead><tr><th>프로토콜</th><th>한 번 제공되는 정보</th><th>KIBO</th><th>FFROT</th><th>FF-left</th><th>사용 범위</th></tr></thead>
             <tbody>
-              <tr><td>Current GT-free</td><td>Estimated anchor</td><td>0.105748 m / 1.255977°</td><td>0.648026 m / 3.054594°</td><td>—</td><td>End-to-end 개발</td></tr>
-              <tr class="primary-row"><td>Known metric start</td><td>첫 POST metric pose</td><td>0.055362 m / 0.418043°</td><td>0.071381 m / 0.472940°</td><td>0.008622 m / 0.213676°</td><td>Declared ablation</td></tr>
-              <tr><td>POST-GT retrospective</td><td>POST GT fit</td><td>0.032976 m / 0.867218°</td><td>—</td><td>—</td><td>내부 upper bound</td></tr>
+              <tr class="primary-row"><td>Adaptive GT-blind selector</td><td>시퀀스 시작 PRE pose</td><td>0.175016 m / 1.660341°</td><td>0.119820 m / 0.873874°</td><td>0.040187 m / 1.847179°</td><td>Main</td></tr>
+              <tr><td>Known first-POST oracle</td><td>첫 POST GT pose</td><td>0.055362 m / 0.418043°</td><td>0.071381 m / 0.472940°</td><td>—</td><td>Diagnostic only</td></tr>
+              <tr><td>POST-GT retrospective</td><td>POST GT fit</td><td>0.032976 m / 0.867218°</td><td>—</td><td>—</td><td>Diagnostic only</td></tr>
             </tbody>
           </table>
-          <div class="table-note"><b>경계.</b> Known-start는 첫 POST pose를 한 번 주고 이후 GT는 scoring에만 쓴다. POST-GT retrospective와 같은 사후 정렬이 아니다.</div>
+          <div class="table-note"><b>경계.</b> POST oracle은 relative trajectory가 충분히 정확한지 확인하는 내부 진단일 뿐 main 결과가 아니다.</div>
         </div>
         <div class="table-wrap">
-          <table aria-label="Known metric start full SLAM comparison">
-            <thead><tr><th>Sequence / support</th><th>DART-SLAM</th><th>HI-SLAM2</th><th>Target</th></tr></thead>
+          <table aria-label="Adaptive GT-blind full SLAM comparison">
+            <thead><tr><th>Sequence / support</th><th>DART-SLAM</th><th>HI-SLAM2</th><th>&lt;0.20 m / &lt;5°</th></tr></thead>
             <tbody>
-              <tr class="primary-row"><td>KIBO · full739</td><td>0.055362 m / 0.418043°</td><td>8.130589 m / 83.912656°</td><td>Pass</td></tr>
-              <tr class="primary-row"><td>FFROT · exact78</td><td>0.071381 m / 0.472940°</td><td>13.495741 m / 113.277097°</td><td>Pass</td></tr>
-              <tr class="primary-row"><td>TD-yaw · full79</td><td>0.008622 m / 0.213676°</td><td>0.275059 m / 17.828688°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>KIBO · full739</td><td>0.175016 m / 1.660341°</td><td>8.130589 m / 83.912656°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>FFROT · f425 full</td><td>0.119820 m / 0.873874°</td><td>13.495741 m / 113.277097°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>FF return-left · exact199</td><td>0.040187 m / 1.847179°</td><td>2.391938 m / 134.491799°</td><td>Pass</td></tr>
             </tbody>
           </table>
-          <div class="table-note">세 시퀀스 모두 같은 declared known-metric-start 조건에서 &lt;0.10 m / &lt;2°를 만족한다.</div>
+          <div class="table-note"><b>3 / 3 full pass.</b> 세 행 모두 동일한 adaptive GT-blind selector 기준이며 POST pose를 쓰지 않는다.</div>
         </div>
         <div class="table-wrap">
-          <table aria-label="Five sequence module consistency audit">
-            <thead><tr><th>Sequence</th><th>n</th><th>Backbone / raw</th><th>+ first anchor</th><th>+ rotation graph</th></tr></thead>
+          <table aria-label="Five sequence pooled first-clear stress test">
+            <thead><tr><th>Sequence</th><th>First clear</th><th>Translation</th><th>Rotation</th><th>&lt;0.20 m / &lt;5°</th></tr></thead>
             <tbody>
-              <tr><td>KIBO bag2</td><td>739</td><td>8.131 m / 83.91°</td><td>0.222 m / 2.17°</td><td>0.272 m / 2.84°</td></tr>
-              <tr><td>FFROT bag2</td><td>78</td><td>13.496 m / 113.28°</td><td>0.648 m / 3.05°</td><td>—</td></tr>
-              <tr><td>IVA KIBO trans</td><td>200</td><td>0.083 m / 0.51°</td><td>0.456 m / 7.13°</td><td>—</td></tr>
-              <tr><td>TD-yaw</td><td>79</td><td>0.275 m / 17.83°</td><td>0.512 m / 2.07°</td><td>0.512 m / 0.85°</td></tr>
-              <tr><td>FF return-left</td><td>200</td><td>2.392 m / 134.49°</td><td>—</td><td>—</td></tr>
+              <tr class="primary-row"><td>KIBO bag2</td><td>f200</td><td>0.134797 m</td><td>1.752877°</td><td>Pass</td></tr>
+              <tr><td>FFROT bag2</td><td>f420</td><td>0.221344 m</td><td>4.830245°</td><td>Fail</td></tr>
+              <tr><td>IVA KIBO trans</td><td>f129</td><td>3.713769 m</td><td>9.156101°</td><td>Fail</td></tr>
+              <tr><td>TD-yaw</td><td>f166</td><td>0.390260 m</td><td>4.060717°</td><td>Fail</td></tr>
+              <tr><td>FF return-left</td><td>f680</td><td>0.343680 m</td><td>20.942836°</td><td>Fail</td></tr>
             </tbody>
           </table>
-          <div class="table-note"><b>Common policy.</b> <code>pooled_balanced_f</code>, no POST-GT fit. 첫 anchor·rotation graph·Manhattan 이득은 시퀀스별로 일관적이지 않다. 병목은 relative POST가 아니라 absolute-anchor selection/gating이다.</div>
+          <div class="table-note"><b>Gate 적용 전 stress test.</b> 모든 장면에 <code>pooled_balanced_f</code>를 강제하면 1 / 5만 통과한다. 이 표가 adaptive gate가 필요한 직접 근거다.</div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Adaptive gate recovery">
+            <thead><tr><th>Sequence</th><th>GT-blind decision</th><th>First anchor</th><th>Full RMSE</th><th>판정</th></tr></thead>
+            <tbody>
+              <tr class="primary-row"><td>KIBO</td><td>f200 pooled-F + Manhattan</td><td>0.125832 m / 1.770110°</td><td>0.175016 m / 1.660341°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>FFROT</td><td>f420 reject → f425 pooled-F + Manhattan</td><td>0.171166 m / 0.825952°</td><td>0.119820 m / 0.873874°</td><td>Pass</td></tr>
+              <tr class="primary-row"><td>FF return-left</td><td>PRE·POST rank2-F + Manhattan</td><td>0.041992 m / 1.232290°</td><td>0.040187 m / 1.847179°</td><td>Pass</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">규칙: pooled support·reprojection·single-view 충돌을 검사하고, 불충분하면 strongest eligible single-F로 전환한다. FF-left는 PRE와 POST에 같은 frozen Manhattan refinement를 적용했다. 임계값은 dev-set에서 정했으며 아직 held-out은 아니다.</div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="FF-left failure isolation">
+            <thead><tr><th>FF-left ablation</th><th>Full translation</th><th>Full rotation</th><th>결론</th></tr></thead>
+            <tbody>
+              <tr><td>Forced pooled first-clear</td><td>0.343680 m</td><td>20.942836°</td><td>Wrong anchor</td></tr>
+              <tr><td>Temporal medoid</td><td>0.411 m</td><td>22.85°</td><td>Consistent wrong pose</td></tr>
+              <tr><td>POST-only Manhattan</td><td>0.233823 m</td><td>4.371578°</td><td>Gauge mismatch</td></tr>
+              <tr class="primary-row"><td>PRE + POST Manhattan</td><td>0.040187 m</td><td>1.847179°</td><td>Pass</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">GT-blind 다중 depth scale 중앙값은 0.987676으로, 의심했던 11% under-scale을 배제했다. FF-left의 주원인은 scale이 아니라 PRE/POST 구조축 gauge 불일치였다.</div>
         </div>
         <div class="table-wrap">
           <table aria-label="Frozen 83 query absolute localizer comparison">
@@ -317,7 +341,7 @@
           </table>
           <div class="table-note">같은 83 queries · intrinsics · 108 twin renders · GT-free NetVLAD top-20. HLoc/MeshLoc은 full SLAM이 아닌 독립 single-query localizer 비교다.</div>
         </div>
-        <div class="verdict"><b>총평</b><span><strong>Known-start에서는 세 시퀀스가 목표를 통과하지만, 현재 GT-free 일반화 병목은 절대 anchor를 언제 믿을지 결정하는 gate다.</strong> Manhattan과 반복 rotation anchor는 아직 보조 단서이며 일괄 적용하지 않는다.</span></div>
+        <div class="verdict"><b>현재 결론</b><span><strong>좌표계·클립 오류를 제거한 뒤, absolute-anchor ambiguity는 GT-blind quality gate로, FF-left는 양쪽 structural gauge를 일치시켜 해결했다.</strong> 이제 병목은 recovery 자체가 아니라 frozen policy의 held-out 일반화와 end-to-end online 통합이다.</span></div>
       </section>
 
       <section class="note-section" id="reported-failures" data-title="05 · 선행 실패 조건 직접 재실행">
@@ -423,12 +447,12 @@
         </div>
         <div class="task-list">
           <article class="task"><div class="rank">P0</div><div><h3>Online gate → restart → mapping resume</h3><p>현재 독립 causal segment 결과를 하나의 연속 실행으로 통합.</p></div><div class="state">End-to-end proof</div></article>
-          <article class="task"><div class="rank">P1</div><div><h3>최종 성공 시퀀스 2–3개 고정</h3><p>같은 프로토콜로 모든 SLAM baseline과 영상·경로·표를 잠근다.</p></div><div class="state">Paper evidence</div></article>
+          <article class="task"><div class="rank">P1</div><div><h3>Frozen gate의 held-out 검증</h3><p>현재 3개 성공에서 임계값을 더 바꾸지 않고 새 tracking-loss 시퀀스에 적용.</p></div><div class="state">Generalization</div></article>
           <article class="task"><div class="rank">P1</div><div><h3>Real kidnap의 transient foreground</h3><p>움직이는 우주인 영역을 uncertainty-weighted tracking/mapping으로 억제.</p></div><div class="state">Qualitative → robust</div></article>
           <article class="task"><div class="rank">P2</div><div><h3>Repeated anchor joint refinement</h3><p>global transform과 anchor 잔차를 함께 줄여 0.1 m / 2° 목표를 안정화.</p></div><div class="state">Accuracy</div></article>
           <article class="task"><div class="rank">P3</div><div><h3>SVO-DT 추가 투입</h3><p>현재 기록으로 충분. reviewer가 요구할 때만 zero-g IMU adaptation을 추가한다.</p></div><div class="state">Hold</div></article>
         </div>
-        <div class="question-chips" aria-label="Questions for the next meeting"><span>어떤 2–3개 시퀀스를 최종 고정할까?</span><span>연속 online 통합을 본문 필수로 볼까?</span><span>Real kidnap은 qualitative로 충분한가?</span><span>SVO-DT는 supplementary 어디까지 넣을까?</span></div>
+        <div class="question-chips" aria-label="Questions for the next meeting"><span>Held-out을 몇 개까지 추가할까?</span><span>연속 online 통합을 본문 필수로 볼까?</span><span>Real kidnap은 qualitative로 충분한가?</span><span>SVO-DT는 supplementary 어디까지 넣을까?</span></div>
       </section>
 
       <section class="note-section" id="evidence-ledger" data-title="09 · 근거 파일">
@@ -448,6 +472,11 @@
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/geometry_gate_summary.csv</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_picoflex_dominant_plane_partial_dof_v1/full_f200_f846/geometry_gate_summary.csv">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/final_comparison_ledger_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/final_comparison_ledger_v1/REPORT.md">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/final_success_set_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/final_success_set_v1/REPORT.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/first_post_evaluation_v1.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/first_post_evaluation_v1.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/metric_scale_stage_v1/ffrot_f425_own_pre_canonical_v1/report.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/metric_scale_stage_v1/ffrot_f425_own_pre_canonical_v1/report.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/adaptive_policy_gate_v1/CONSOLIDATED_RESULTS.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/adaptive_policy_gate_v1/CONSOLIDATED_RESULTS.md">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/adaptive_policy_gate_v1/ffleft_prepost_manhattan_full_v2/report.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/adaptive_policy_gate_v1/ffleft_prepost_manhattan_full_v2/report.json">경로 복사</button></div>
+          <div class="path"><code>~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/temporal_ffleft_v1/medoid_consensus_evaluation_v1.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/preonly_recovery_v3_20260823/temporal_ffleft_v1/medoid_consensus_evaluation_v1.json">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/five_sequence_module_consistency_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/five_sequence_module_consistency_v1/REPORT.md">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/frozen83_localizer_fair_comparison_audit_v1/REPORT.md</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/frozen83_localizer_fair_comparison_audit_v1/REPORT.md">경로 복사</button></div>
           <div class="path"><code>~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json</code><button class="copy" data-copy="~/exp1/data_v2/recon_work/kibo_bag2_connected_anchor_gauge_v1/connected_map_report_v1.json">경로 복사</button></div>
