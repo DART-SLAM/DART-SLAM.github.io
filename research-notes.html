@@ -204,11 +204,13 @@
               <tr><td>Single · rotation ≤0.5°</td><td>2 / 5</td><td>2 / 5</td><td>+0.10 mm</td><td>+0.106°</td><td>0 / 7</td></tr>
               <tr><td>Single · translation ≤2 cm</td><td>2 / 5</td><td>—</td><td>+5.92 mm</td><td>—</td><td>0 / 7</td></tr>
               <tr><td>Single · full ≤2 cm / 0.5°</td><td>3 / 4</td><td>3 / 4</td><td>+2.47 mm</td><td>+0.147°</td><td>0 / 7</td></tr>
+              <tr><td>Single · full ≤5 cm / 1°</td><td>2 / 5</td><td>2 / 5</td><td>+5.38 mm</td><td>+0.409°</td><td>0 / 7</td></tr>
               <tr><td>Multi-3 · rotation ≤0.5°</td><td>2 / 5</td><td>3 / 4</td><td>+0.14 mm</td><td>+0.099°</td><td>0 / 7</td></tr>
+              <tr><td>Multi-3 · translation ≤2 cm</td><td>2 / 5</td><td>—</td><td>+6.30 mm</td><td>—</td><td>0 / 7</td></tr>
               <tr><td>Multi-3 · full ≤2 cm / 0.5°</td><td>2 / 5</td><td>3 / 4</td><td>+3.04 mm</td><td>+0.117°</td><td>0 / 7</td></tr>
             </tbody>
           </table>
-          <div class="table-note"><b>Protocol.</b> 공식 변환 · cloud-time 보간 · NASA organized filter · visibility raycast · robust trimmed point-to-plane · GT는 scoring에만 사용. 양의 Δ는 오차 악화다.</div>
+          <div class="table-note"><b>Protocol.</b> 공식 변환 · cloud-time 보간 · NASA organized filter · visibility raycast · robust trimmed point-to-plane · GT는 scoring에만 사용. 양의 Δ는 오차 악화다. 별도 f200 full-6DoF sanity는 <b>0.0640 m / 2.826° → 0.1056 m / 8.014°</b>로 악화됐다.</div>
         </div>
         <div class="metric-grid" aria-label="Dominant plane partial factor pilot">
           <div class="metric"><b>4 / 7</b><span>GT 없이 geometry gate 통과</span></div>
@@ -227,6 +229,21 @@
           </table>
           <div class="table-note"><b>Frozen protocol.</b> 후보·gate·설정을 GT 열람 전에 SHA로 고정한 뒤 GT는 scoring에만 사용했다. Normal-only의 유일한 실패 f658은 +0.646°였고, support·planarity·CAD coverage·temporal consistency 중 어느 사전 지표로도 성공 샘플과 구별되지 않았다. 따라서 엄격한 일반 채택 판정은 <b>NO</b>다.</div>
         </div>
+        <details><summary>Normal-only · 7-anchor 전체 결과</summary><div><div class="table-wrap">
+          <table aria-label="Dominant plane normal-only per-anchor results">
+            <thead><tr><th>Frame</th><th>Frozen gate</th><th>Seed R</th><th>Result R</th><th>Δ rotation</th><th>Outcome</th></tr></thead>
+            <tbody>
+              <tr><td>f200</td><td>Accept</td><td>2.826°</td><td>2.207°</td><td>−0.619°</td><td><span class="role direct">Win</span></td></tr>
+              <tr><td>f376</td><td>Reject</td><td>2.371°</td><td>2.371°</td><td>0.000°</td><td>Tie</td></tr>
+              <tr><td>f470</td><td>Reject</td><td>4.925°</td><td>4.925°</td><td>0.000°</td><td>Tie</td></tr>
+              <tr><td>f564</td><td>Accept</td><td>5.864°</td><td>2.612°</td><td>−3.252°</td><td><span class="role direct">Win</span></td></tr>
+              <tr><td>f658</td><td>Accept</td><td>1.202°</td><td>1.848°</td><td>+0.646°</td><td><span class="role related">Loss</span></td></tr>
+              <tr><td>f752</td><td>Accept</td><td>2.687°</td><td>2.632°</td><td>−0.055°</td><td><span class="role direct">Win</span></td></tr>
+              <tr><td>f846</td><td>Reject</td><td>1.342°</td><td>1.342°</td><td>0.000°</td><td>Tie</td></tr>
+            </tbody>
+          </table>
+          <div class="table-note">Reject는 seed를 bit-exact하게 유지한다. 전체 7회는 3W / 3T / 1L, mean ΔR −0.469°; gate 통과 4회는 3W / 1L, mean ΔR −0.820°다.</div>
+        </div></div></details>
         <div class="table-wrap">
           <table aria-label="Alternative uses of PicoFlex depth">
             <thead><tr><th>Depth 사용법</th><th>실제로 주는 정보</th><th>현재 판단</th></tr></thead>
